@@ -56,12 +56,12 @@ public class AdminServlet extends HttpServlet {
         }
 
         User user = userStore.getUser(username);
-        if (user == null || user != "annepham") {
+        if (user == null) {
           // user was not found, don't let them create a conversation
           response.sendRedirect("/login");
           return;
         }
-        
+
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
