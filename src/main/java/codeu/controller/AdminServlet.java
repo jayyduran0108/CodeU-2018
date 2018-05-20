@@ -67,7 +67,7 @@ public class AdminServlet extends HttpServlet {
         } else {
           request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
-        response.sendRedirect("/admin.jsp");
+        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
