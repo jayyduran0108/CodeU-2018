@@ -84,7 +84,7 @@
 
   <servlet-mapping>
     <servlet-name>ActivityFeedServlet</servlet-name>
-    <url-pattern>/admin</url-pattern>
+    <url-pattern>/admin.jsp</url-pattern>
   </servlet-mapping>
 
 <!-- end of Admin Page -->
