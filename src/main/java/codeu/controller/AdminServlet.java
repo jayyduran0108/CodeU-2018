@@ -51,7 +51,7 @@ public class AdminServlet extends HttpServlet {
         // names.add("jeanette");
 
         String username = (String) request.getSession().getAttribute("user");
-        if (username != "annepham") {
+        if (username == "annepham") {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
         } else {
