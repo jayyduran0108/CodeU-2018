@@ -53,7 +53,7 @@ public class AdminServlet extends HttpServlet {
         String username = (String) request.getSession().getAttribute("user");
         if (username == "annepham") {
           response.sendRedirect("/admin.jsp");
-        } else if (username == null || username != "annepham") {
+        } else if (username == null || !username.equals("annepham")) {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
         } else {
@@ -62,7 +62,7 @@ public class AdminServlet extends HttpServlet {
         }
 
         User user = userStore.getUser(username);
-        if (user == null || username != "annepham") {
+        if (user == null || !username.equals("annepham")) {
           // user was not found, don't let them see the admin page
           System.out.println("Access Denied: " + username);
           response.sendRedirect("/login");
