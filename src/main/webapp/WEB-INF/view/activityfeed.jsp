@@ -13,14 +13,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
+<%@ page import="java.time.Instant" %>
+<%@ page import="java.util.Date" %>
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
+<%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="codeu.model.store.basic.ConversationStore" %>
 <%
-Conversation conversation = (Conversation) request.getAttribute("conversation");
-List<Message> messages = (List<Message>) request.getAttribute("messages");
-String user = (String) request.getAttribute("user");
+List<User> users = (List<User>) request.getAttribute("users");
+List<Conversation> conversations = (List<Conversation>) request.getAttribute("conversations");
 %>
 <!DOCTYPE html>
 <html>
@@ -49,29 +52,25 @@ String user = (String) request.getAttribute("user");
   <nav>
     <a id="navTitle" href="/">CodeU Chat App</a>
     <a href="/conversations">Conversations</a>
-      <% if (request.getSession().getAttribute("user") != null) { %>
-    <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-    <% } %>
-    <a href="/about.jsp">About</a>
   </nav>
 
   <div id="container">
 
-    <h1><%= conversation.getTitle() %>
+    <h1><%= "Acitivity Feed" %>
       <a href="" style="float: right">&#8635;</a></h1>
 
     <hr/>
 
     <div id="activity">
       <ul>
+
     <%
-      for (Message message : messages) {
-        String author = UserStore.getInstance()
-          .getUser(message.getAuthorId()).getName();
+      UserStore inst = UserStore.getInstance();
+      for (Conversation conversation : conversations) {
+         Instant instant = conversation.getCreationTime();
+         Date myDate = Date.from(instant);
     %>
-      <li><strong><%= author %>:</strong> <%= message.getContent() %></li>
+      <li><strong><%= myDate %>:</strong> <%= inst.getUser(conversation.getOwnerId()).getName() + " created a new conversation: " + conversation.getTitle() %></li>
     <%
       }
     %>
@@ -79,16 +78,6 @@ String user = (String) request.getAttribute("user");
     </div>
 
     <hr/>
-
-    <% if (request.getSession().getAttribute("user") != null) { %>
-    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-        <input type="text" name="message">
-        <br/>
-        <button type="submit">Send</button>
-    </form>
-    <% } else { %>
-      <p><a href="/login">Login</a> to send a message.</p>
-    <% } %>
 
     <hr/>
 
