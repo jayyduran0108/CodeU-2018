@@ -17,8 +17,7 @@
     <a href="/activityfeed.jsp">Activity Feed</a>
     <a href="/admin.jsp"> Admin </a>
   </nav>
-
-  <h1> <center> this is the admin page!!! </center> </h1>
+    <h1> <center> this is the admin page!!!! </center> </h1>
 
 </body>
 </html>

@@ -41,7 +41,6 @@ public class AdminServlet extends HttpServlet {
   /** END **/
 
   /** START OF MY CODE **/
-
   /**
    * This function fires when a user requests the /admin URL. It simply forwards the request to
    * login.jsp.
@@ -49,8 +48,10 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getRequestDispatcher("/login").forward(request, response);
-    response.sendRedirect("/login");
+    String username = request.getParameter("username");
+    if (username == "annepham") {
+      request.getRequestDispatcher("/login.jsp").forward(request, response);
+    }
   }
 
   /**
