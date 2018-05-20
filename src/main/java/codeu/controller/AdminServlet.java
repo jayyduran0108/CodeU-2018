@@ -52,8 +52,16 @@ public class AdminServlet extends HttpServlet {
         if (username != "annepham") {
           // user is not logged in, don't let them create a conversation
           response.sendRedirect("/login");
+          return;
+        }
+        if {
+          User user = userStore.getUser(username);
+          if (user == null) {
+            // user was not found, don't let them create a conversation
+            System.out.println("User not found: " + username);
+            response.sendRedirect("/login");
         } else {
-            request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
   }
 
