@@ -15,10 +15,10 @@
     <% } %>
     <a href="/about.jsp">About</a>
     <a href="/activityfeed.jsp">Activity Feed</a>
-    <a href="/admin.jsp"> Admin </a>
+    <a href="/admin"> Admin </a>
   </nav>
 
-  this is the admin page!!!
+  <h1> <center> this is the admin page!!! </center> </h1>
 
 </body>
 </html>
