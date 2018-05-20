@@ -48,10 +48,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    String username = request.getParameter("username");
-    if (username == "annepham") {
-      request.getRequestDispatcher("/login.jsp").forward(request, response);
-    }
+      request.getRequestDispatcher("/admin.jsp").forward(request, response);
   }
 
   /**
@@ -64,6 +61,11 @@ public class AdminServlet extends HttpServlet {
       throws IOException, ServletException {
     String username = request.getParameter("username");
     String password = request.getParameter("password");
+    if (username != "annepham") {
+      response.sendRedirect("/login.jsp");
+    } else {
+      response.sendRedirect("/admin.jsp");
+    }
 
     if (!userStore.isUserRegistered(username)) {
       request.setAttribute("error", "That username was not found.");
