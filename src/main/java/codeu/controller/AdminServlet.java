@@ -48,7 +48,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-        User user = userStore.getUser(annepham);
+        User user = userStore.getUser("annepham");
         if (user != "annepham") {
           response.sendRedirect("/login.jsp");
         } else {
