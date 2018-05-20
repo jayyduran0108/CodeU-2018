@@ -38,7 +38,6 @@ public class AdminServlet extends HttpServlet {
     this.userStore = userStore;
   }
 
-  /** START OF MY CODE **/
   /**
    * This function fires when a user requests the /admin URL. It simply forwards the request to
    * login.jsp.
