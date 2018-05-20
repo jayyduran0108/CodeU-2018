@@ -48,9 +48,10 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-        User user = userStore.getUser("annepham");
-        if (user != "annepham") {
-          response.sendRedirect("/login.jsp");
+        String username = (String) request.getSession().getAttribute("user");
+        if (username != "annepham") {
+          // user is not logged in, don't let them create a conversation
+          response.sendRedirect("/login");
         } else {
             request.getRequestDispatcher("/admin.jsp").forward(request, response);
         }
