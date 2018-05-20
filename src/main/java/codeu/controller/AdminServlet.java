@@ -54,7 +54,8 @@ public class AdminServlet extends HttpServlet {
         if (username == null || username != "annepham") {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
-          return;
+        } else {
+          request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
 
         User user = userStore.getUser(username);
@@ -62,10 +63,9 @@ public class AdminServlet extends HttpServlet {
           // user was not found, don't let them see the admin page
           System.out.println("Access Denied: " + username);
           response.sendRedirect("/login");
-          return;
+        } else {
+          request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
