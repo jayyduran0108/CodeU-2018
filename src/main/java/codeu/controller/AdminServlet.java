@@ -56,6 +56,7 @@ public class AdminServlet extends HttpServlet {
           response.sendRedirect("/login");
         } else {
           request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+          return;
         }
 
         User user = userStore.getUser(username);
