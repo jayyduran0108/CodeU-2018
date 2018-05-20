@@ -45,16 +45,22 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
+        List<String> names = new ArrayList<String>();
+        names.add("anne");
+        names.add("jorge");
+        names.add("jeanette");
+
         String username = (String) request.getSession().getAttribute("user");
-        if (username == null || username != "annepham") {
+        if (username == null || !names.contains(username)) {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
           return;
         }
 
         User user = userStore.getUser(username);
-        if (user == null) {
+        if (user == null || !names.contains(username)) {
           // user was not found, don't let them see the admin page
+          System.out.println("Access Denied: " + username);
           response.sendRedirect("/login");
           return;
         }
