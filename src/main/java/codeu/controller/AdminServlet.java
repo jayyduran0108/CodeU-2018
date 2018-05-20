@@ -77,11 +77,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-
-    String username = request.getParameter("username");
-    if (username == "annepham") {
       response.sendRedirect("/admin.jsp");
-    }
 
     /*
     String username = request.getParameter("username");
