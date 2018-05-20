@@ -17,7 +17,6 @@ import codeu.model.store.basic.UserStore;
 
 public class AdminServlet extends HttpServlet {
 
-  /** CODE THAT WAS GIVIN IN LOGINSERVLET.JAVA (is it needed?) **/
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
@@ -38,7 +37,6 @@ public class AdminServlet extends HttpServlet {
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
   }
-  /** END **/
 
   /** START OF MY CODE **/
   /**
@@ -50,14 +48,14 @@ public class AdminServlet extends HttpServlet {
       throws IOException, ServletException {
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || username != "annepham") {
-          // user is not logged in, don't let them create a conversation
+          // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
           return;
         }
 
         User user = userStore.getUser(username);
         if (user == null) {
-          // user was not found, don't let them create a conversation
+          // user was not found, don't let them see the admin page
           response.sendRedirect("/login");
           return;
         }
