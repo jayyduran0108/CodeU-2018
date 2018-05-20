@@ -49,20 +49,20 @@ public class AdminServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
         String username = (String) request.getSession().getAttribute("user");
-        if (username != "annepham") {
+        if (username == null || username != "annepham") {
           // user is not logged in, don't let them create a conversation
           response.sendRedirect("/login");
           return;
         }
 
         User user = userStore.getUser(username);
-        if (user == null) {
+        if (user == null || user != "annepham") {
           // user was not found, don't let them create a conversation
-          System.out.println("User not found: " + username);
           response.sendRedirect("/login");
-        } else {
-            request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+          return;
         }
+        
+        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
