@@ -82,7 +82,7 @@ public class AdminServlet extends HttpServlet {
       response.sendRedirect("/admin.jsp");
     }
 
-    
+    /*
     String username = request.getParameter("username");
     String password = request.getParameter("password");
 
@@ -102,5 +102,6 @@ public class AdminServlet extends HttpServlet {
 
     request.getSession().setAttribute("user", username);
     response.sendRedirect("/admin.jsp");
+    */
   }
 }
