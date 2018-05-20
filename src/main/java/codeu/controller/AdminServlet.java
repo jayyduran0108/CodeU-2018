@@ -49,7 +49,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+    request.getRequestDispatcher("/admin.jsp").forward(request, response);
   }
 
   /**
