@@ -76,7 +76,6 @@
     <url-pattern>/activity</url-pattern>
   </servlet-mapping>
 
-<!-- Admin Page -->
   <servlet>
     <servlet-name>AdminServlet</servlet-name>
     <servlet-class>codeu.controller.AdminServlet</servlet-class>
@@ -87,6 +86,5 @@
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
 
-<!-- end of Admin Page -->
 
 </web-app>

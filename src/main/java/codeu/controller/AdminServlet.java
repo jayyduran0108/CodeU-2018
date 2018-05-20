@@ -3,8 +3,6 @@ package codeu.controller;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
-import java.io.*;
-import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,20 +45,20 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-        List<String> names = new ArrayList<String>();
-        names.add("anne");
-        names.add("jorge");
-        names.add("jeanette");
+        // List<String> names = new ArrayList<String>();
+        // names.add("anne");
+        // names.add("jorge");
+        // names.add("jeanette");
 
         String username = (String) request.getSession().getAttribute("user");
-        if (username == null || !names.contains(username)) {
+        if (username == null || username != "annepham") {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
           return;
         }
 
         User user = userStore.getUser(username);
-        if (user == null || !names.contains(username)) {
+        if (user == null || username != "annepham") {
           // user was not found, don't let them see the admin page
           System.out.println("Access Denied: " + username);
           response.sendRedirect("/login");
