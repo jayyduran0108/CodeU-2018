@@ -83,7 +83,7 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>ActivityFeedServlet</servlet-name>
+    <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
 
