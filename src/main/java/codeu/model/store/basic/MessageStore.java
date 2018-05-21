@@ -89,4 +89,9 @@ public class MessageStore {
   public void setMessages(List<Message> messages) {
     this.messages = messages;
   }
+
+  /*Return the In-memory list of messages*/
+  public List<Message> getMessages() {
+    return messages;
+  }
 }

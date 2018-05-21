@@ -1,5 +1,5 @@
 <%--
-  Copyright 2017 Google Inc.
+  Copyright 2018 Google Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@
 <%
 List<User> users = (List<User>) request.getAttribute("users");
 List<Conversation> conversations = (List<Conversation>) request.getAttribute("conversations");
+List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,20 +33,20 @@ List<Conversation> conversations = (List<Conversation>) request.getAttribute("co
   <link rel="stylesheet" href="/css/main.css">
 
   <style>
-      #activity {
+    #activity {
         background-color: white;
         height: 500px;
         overflow-y: scroll
-      }
-    </style>
+    }
+  </style>
 
-    <script>
-      // scroll the activity feed div to the bottom
-      function scrollChat() {
-        var chatDiv = document.getElementById('activity');
-        chatDiv.scrollTop = chatDiv.scrollHeight;
-      };
-    </script>
+  <script>
+    // scroll the activity feed div to the bottom
+    function scrollChat() {
+       var chatDiv = document.getElementById('activity');
+       chatDiv.scrollTop = chatDiv.scrollHeight;
+    };
+  </script>
 </head>
 <body onload="scrollChat()">
 
@@ -56,15 +57,16 @@ List<Conversation> conversations = (List<Conversation>) request.getAttribute("co
 
   <div id="container">
 
-    <h1><%= "Acitivity Feed" %>
+    <h1><%= "Activity Feed" %>
       <a href="" style="float: right">&#8635;</a></h1>
 
     <hr/>
 
     <div id="activity">
-      <ul>
+    <ul>
 
     <%
+      ConversationStore ConvInst = ConversationStore.getInstance();
       UserStore inst = UserStore.getInstance();
       for (Conversation conversation : conversations) {
          Instant instant = conversation.getCreationTime();
@@ -74,7 +76,25 @@ List<Conversation> conversations = (List<Conversation>) request.getAttribute("co
     <%
       }
     %>
-      </ul>
+    <%
+       for (User user : users) {
+          Instant instant1 = user.getCreationTime();
+          Date myDateu = Date.from(instant1);
+    %>
+      <li><strong><%= myDateu %>:</strong> <%= user.getName() + " joined! " %></li>
+    <%
+      }
+    %>
+    <%
+       for (Message message : messages) {
+          Instant instant2 = message.getCreationTime();
+          Date myDatem = Date.from(instant2);
+    %>
+      <li><strong><%= myDatem %>:</strong> <%= inst.getUser(message.getAuthorId()).getName() + " sent a message in " + ConvInst.getConversation(message.getConversationId()).getTitle() + ": \"" + message.getContent() +"\""  %></li>
+    <%
+      }
+    %>
+    </ul>
     </div>
 
     <hr/>

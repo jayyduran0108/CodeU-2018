@@ -72,11 +72,13 @@ public class ActivityFeedServlet extends HttpServlet{
 
         List<Conversation> conversations = conversationStore.getAllConversations();
         List<User> users = userStore.getUsers();
-        for(User u: users){
-            System.out.println(u.getCreationTime());
-        }
+        List<Message> messages = messageStore.getMessages();
+//        for(User u: users){
+//            System.out.println(u.getCreationTime());
+//        }
         request.setAttribute("users", users);
         request.setAttribute("conversations", conversations);
+        request.setAttribute("messages",messages);
         request.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp").forward(request, response);
     }
 }
