@@ -19,7 +19,7 @@ public class AdminServlet extends HttpServlet {
 
   /** Store class that gives access to Users. */
   private UserStore userStore;
-  private List<String> names;
+  private ArrayList<String> names;
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
