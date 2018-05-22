@@ -55,8 +55,7 @@ public class AdminServlet extends HttpServlet {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
         } else {
-          request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
-          return;
+          response.sendRedirect("/admin.jsp");
         }
 
         User user = userStore.getUser(username);
@@ -67,7 +66,7 @@ public class AdminServlet extends HttpServlet {
         } else {
           request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+        response.sendRedirect("/admin.jsp");
   }
 
   /**
