@@ -7,10 +7,14 @@ import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
 
-
 import java.io.IOException;
 import java.time.Instant;
-import java.util.*;
+
+import java.util.UUID;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -67,10 +71,6 @@ public class ActivityFeedServlet extends HttpServlet{
     Instant instant;
     UUID id;
 
-    public Item(){
-
-    }
-
     public Item(Message m){
       instant = m.getCreationTime();
       id = m.getId();
@@ -92,7 +92,7 @@ public class ActivityFeedServlet extends HttpServlet{
         return -1;
       } else if (instant.compareTo(item.instant)<0) {
         return 1;
-        } else {
+      } else {
         return 0;
       }
     }
@@ -131,7 +131,7 @@ public class ActivityFeedServlet extends HttpServlet{
       fringe.add(new Item(m));
       ids.put(m.getId(),m);
     }
-    
+
     request.setAttribute("FeedItems", fringe);
     request.setAttribute("ids", ids);
     request.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp").forward(request, response);

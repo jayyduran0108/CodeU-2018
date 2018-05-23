@@ -32,9 +32,6 @@
 <%
 PriorityQueue<ActivityFeedServlet.Item> FeedItem = (PriorityQueue<ActivityFeedServlet.Item>) request.getAttribute("FeedItems");
 Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
-//List<User> users = (List<User>) request.getAttribute("users");
-//List<Conversation> conversations = (List<Conversation>) request.getAttribute("conversations");
-//List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 <!DOCTYPE html>
 <html>
@@ -67,8 +64,7 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
 
   <div id="container">
 
-    <h1><%= "Activity Feed" %>
-      <a href="" style="float: right">&#8635;</a></h1>
+    <h1><%= "Activity Feed" %></h1>
 
     <hr/>
     <p>

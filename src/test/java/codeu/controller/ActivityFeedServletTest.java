@@ -98,7 +98,6 @@ public class ActivityFeedServletTest {
 
     activityFeedServlet.doGet(mockRequest, mockResponse);
 
-    //Mockito.verify(mockRequest).setAttribute("FeedItems", fringe);
     Mockito.verify(mockRequest).setAttribute("ids", ids);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
