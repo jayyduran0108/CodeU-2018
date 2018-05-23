@@ -90,7 +90,7 @@ public class MessageStore {
     this.messages = messages;
   }
 
-  /*Return the In-memory list of messages*/
+  /** Return the In-memory list of messages. */
   public List<Message> getMessages() {
     return messages;
   }

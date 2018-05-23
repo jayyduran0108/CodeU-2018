@@ -15,16 +15,26 @@
 --%>
 <%@ page import="java.time.Instant" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.TimeZone" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="codeu.controller.ActivityFeedServlet" %>
+<%@ page import="java.util.PriorityQueue" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%@ page import="codeu.model.store.basic.ConversationStore" %>
 <%
-List<User> users = (List<User>) request.getAttribute("users");
-List<Conversation> conversations = (List<Conversation>) request.getAttribute("conversations");
-List<Message> messages = (List<Message>) request.getAttribute("messages");
+PriorityQueue<ActivityFeedServlet.Item> FeedItem = (PriorityQueue<ActivityFeedServlet.Item>) request.getAttribute("FeedItems");
+Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
+//List<User> users = (List<User>) request.getAttribute("users");
+//List<Conversation> conversations = (List<Conversation>) request.getAttribute("conversations");
+//List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 <!DOCTYPE html>
 <html>
@@ -61,40 +71,43 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <a href="" style="float: right">&#8635;</a></h1>
 
     <hr/>
+    <p>
+      Here's everything that has happened in the site so far!
+    </p>
 
     <div id="activity">
-    <ul>
+      <ul>
 
-    <%
-      ConversationStore ConvInst = ConversationStore.getInstance();
-      UserStore inst = UserStore.getInstance();
-      for (Conversation conversation : conversations) {
-         Instant instant = conversation.getCreationTime();
-         Date myDate = Date.from(instant);
-    %>
-      <li><strong><%= myDate %>:</strong> <%= inst.getUser(conversation.getOwnerId()).getName() + " created a new conversation: " + conversation.getTitle() %></li>
-    <%
-      }
-    %>
-    <%
-       for (User user : users) {
-          Instant instant1 = user.getCreationTime();
-          Date myDateu = Date.from(instant1);
-    %>
-      <li><strong><%= myDateu %>:</strong> <%= user.getName() + " joined! " %></li>
-    <%
-      }
-    %>
-    <%
-       for (Message message : messages) {
-          Instant instant2 = message.getCreationTime();
-          Date myDatem = Date.from(instant2);
-    %>
-      <li><strong><%= myDatem %>:</strong> <%= inst.getUser(message.getAuthorId()).getName() + " sent a message in " + ConvInst.getConversation(message.getConversationId()).getTitle() + ": \"" + message.getContent() +"\""  %></li>
-    <%
-      }
-    %>
-    </ul>
+        <%
+          ConversationStore ConvInst = ConversationStore.getInstance();
+          UserStore inst = UserStore.getInstance();
+          while(!FeedItem.isEmpty()){
+            ActivityFeedServlet.Item activity =FeedItem.poll();
+            if(ids.get(activity.getId()) instanceof User){
+              User u = (User) ids.get(activity.getId());
+              Instant instant = u.getCreationTime();
+              Date myDate = Date.from(instant);
+        %>
+          <li><strong><%= myDate %>:</strong> <%= u.getName() + " joined! " %></li>
+        <%
+          }else if(ids.get(activity.getId()) instanceof Message){
+            Message m = (Message) ids.get(activity.getId());
+            Instant instant = m.getCreationTime();
+            Date myDate = Date.from(instant);
+        %>
+          <li><strong><%= myDate %>:</strong> <%= inst.getUser(m.getAuthorId()).getName() + " sent a message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
+        <%
+          }else{
+            Conversation c = (Conversation) ids.get(activity.getId());
+            Instant instant = c.getCreationTime();
+            Date myDate = Date.from(instant);
+        %>
+          <li><strong><%= myDate %>:</strong> <%= inst.getUser(c.getOwnerId()).getName() + " created a new conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
+        <%
+            }
+          }
+        %>
+      </ul>
     </div>
 
     <hr/>
