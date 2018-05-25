@@ -17,7 +17,20 @@
     <a href="/activityfeed.jsp">Activity Feed</a>
     <a href="/admin.jsp"> Admin </a>
   </nav>
-    <h1> <center> is this even working this is the admin page!!!! </center> </h1>
+    <center>
+    <h1> Administration </h1>
+    <br> ___________________________________________________ <br>
+    <h1> Site Statistics </h1> <br>
+    <h2> Here are some site stats: <h2>
+    <ul>
+      <li> Users: </li>
+      <li> Conversations: </li>
+      <li> Messages: </li>
+      <li> Most active user: </li>
+      <li> Newest user: </li>
+      <li> Wordiest user: </li>
+    <br> ___________________________________________________ <br>
+    <h1> Import Data </h1>
 
 </body>
 </html>
