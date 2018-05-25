@@ -20,17 +20,19 @@
     <center>
     <h1> Administration </h1>
     <br> ___________________________________________________ <br>
-    <h1> Site Statistics </h1> <br>
-    <h2> Here are some site stats: <h2>
-    <ul>
-      <li> Users: </li>
-      <li> Conversations: </li>
-      <li> Messages: </li>
-      <li> Most active user: </li>
-      <li> Newest user: </li>
-      <li> Wordiest user: </li>
+    <h2> Site Statistics </h2> <br>
+    <p> Here are some site stats:
+      <ul>
+        <li> Users: </li>
+        <li> Conversations: </li>
+        <li> Messages: </li>
+        <li> Most active user: </li>
+        <li> Newest user: </li>
+        <li> Wordiest user: </li>
+      </ul>
+    </p>
     <br> ___________________________________________________ <br>
-    <h1> Import Data </h1>
+    <h2> Import Data </h2>
 
 </body>
 </html>
