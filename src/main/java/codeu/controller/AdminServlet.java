@@ -50,7 +50,7 @@ public class AdminServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
-        List<String> names = ArrayList<String>();
+        List<String> names = new ArrayList<String>();
         names.add("annepham");
 
         String username = (String) request.getSession().getAttribute("user");
