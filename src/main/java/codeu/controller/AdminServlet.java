@@ -39,6 +39,8 @@ public class AdminServlet extends HttpServlet {
     setUserStore(UserStore.getInstance());
     names = new ArrayList<String>();
     names.add("annepham");
+    names.add("jeanette");
+    names.add("jorge");
   }
 
   /**
