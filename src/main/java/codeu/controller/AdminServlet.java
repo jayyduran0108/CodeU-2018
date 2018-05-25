@@ -32,9 +32,6 @@ public class AdminServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
-    names = new ArrayList<String>();
-    names.add("annepham");
-    names.add("jeanette");
   }
 
   /**
@@ -53,6 +50,8 @@ public class AdminServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
+        List<String> names = ArrayList<String>();
+        names.add("annepham");
 
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
