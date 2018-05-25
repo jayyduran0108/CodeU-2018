@@ -23,6 +23,7 @@ public class AdminServlet extends HttpServlet {
   // stores hard-coded list of names
   private List<String> names;
 
+
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
    * server, not when running in a test.
@@ -33,6 +34,7 @@ public class AdminServlet extends HttpServlet {
     setUserStore(UserStore.getInstance());
     names = new ArrayList<String>();
     names.add("annepham");
+    names.add("jeanette");
   }
 
   /**
