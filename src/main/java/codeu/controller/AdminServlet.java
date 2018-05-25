@@ -16,6 +16,7 @@ import codeu.model.store.basic.UserStore;
 
 import java.util.*;
 import java.util.List;
+import java.util.ArrayList;
 
 
 
@@ -36,7 +37,7 @@ public class AdminServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
-    List<String> names = new ArrayList<String>();
+    names = new ArrayList<String>();
     names.add("annepham");
   }
 
