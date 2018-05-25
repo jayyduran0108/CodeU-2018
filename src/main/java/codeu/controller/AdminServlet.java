@@ -14,6 +14,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
+import java.util.*;
+import java.util.List;
+
+
 
 public class AdminServlet extends HttpServlet {
 
@@ -32,6 +36,7 @@ public class AdminServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
+    names.add("annepham");
   }
 
   /**
@@ -49,9 +54,6 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-
-        List<String> names = new ArrayList<String>();
-        names.add("annepham");
 
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
