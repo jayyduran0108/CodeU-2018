@@ -22,7 +22,6 @@ import java.util.ArrayList;
 // DATA STORE IMPORTS
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
-import codeu.model.data.User;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -100,8 +99,8 @@ public class AdminServlet extends HttpServlet {
 
 
         // after login ?
-        user = dataStore.loadUsers();
-        int length = user.size();
+        users = dataStore.loadUsers();
+        int length = users.size();
         request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
