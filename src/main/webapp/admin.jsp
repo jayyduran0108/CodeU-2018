@@ -17,22 +17,27 @@
     <a href="/activityfeed.jsp">Activity Feed</a>
     <a href="/admin.jsp"> Admin </a>
   </nav>
-    <center>
-    <h1> Administration </h1>
-    <br> ___________________________________________________ <br>
-    <h2> Site Statistics </h2> <br>
-    <p> Here are some site stats:
-      <ul>
-        <li> Users: </li>
-        <li> Conversations: </li>
-        <li> Messages: </li>
-        <li> Most active user: </li>
-        <li> Newest user: </li>
-        <li> Wordiest user: </li>
-      </ul>
-    </p>
-    <br> ___________________________________________________ <br>
-    <h2> Import Data </h2>
+
+  <div id="container">
+    <div
+      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
+      <center>
+      <h1> Administration </h1>
+      <br> ___________________________________________________ <br>
+      <h2> Site Statistics </h2> <br>
+      <p> Here are some site stats:
+        <ul>
+          <li> Users: </li>
+          <li> Conversations: </li>
+          <li> Messages: </li>
+          <li> Most active user: </li>
+          <li> Newest user: </li>
+          <li> Wordiest user: </li>
+        </ul>
+      </p>
+      <br> ___________________________________________________ <br>
+      <h2> Import Data </h2>
+  </div>
 
 </body>
 </html>
