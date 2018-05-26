@@ -78,7 +78,7 @@ public class AdminServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+      throws IOException, ServletException, PersistentDataStoreException {
 
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
@@ -112,7 +112,7 @@ public class AdminServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+      throws IOException, ServletException, PersistentDataStoreException {
       request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 }
