@@ -25,7 +25,10 @@ public class AdminServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
-  // stores hard-coded list of names
+  // Store class that stores datastore objects
+  //private PersistentDataStore dataStore;
+
+  // Stores hard-coded list of names
   private List<String> names;
 
 
@@ -70,12 +73,12 @@ public class AdminServlet extends HttpServlet {
         User user = userStore.getUser(username);
         if (user == null) {
           // user was not found, don't let them see the admin page
-          System.out.println("Access Denied: " + username);
+          System.out.println("Access Denied: does this work" + username);
           response.sendRedirect("/login");
         } else {
           request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
-        response.sendRedirect("/admin.jsp");
+
   }
 
   /**
@@ -87,27 +90,5 @@ public class AdminServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
       response.sendRedirect("/admin.jsp");
-
-    /*
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
-
-    if (!userStore.isUserRegistered(username)) {
-      request.setAttribute("error", "That username was not found.");
-      request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-      return;
-    }
-
-    User user = userStore.getUser(username);
-
-    if (!BCrypt.checkpw(password, user.getPasswordHash())) {
-      request.setAttribute("error", "Please enter a correct password.");
-      request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-      return;
-    }
-
-    request.getSession().setAttribute("user", username);
-    response.sendRedirect("/admin.jsp");
-    */
   }
 }
