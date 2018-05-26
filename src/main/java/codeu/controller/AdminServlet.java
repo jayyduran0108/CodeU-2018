@@ -70,9 +70,10 @@ public class AdminServlet extends HttpServlet {
     this.userStore = userStore;
   }
 
-  void numUsers() throws PersistentDataStoreException {
+  void int numUsers() throws PersistentDataStoreException {
     users = dataStore.loadUsers();
     int length = users.size();
+    return length;
   }
 
   /**
@@ -102,8 +103,9 @@ public class AdminServlet extends HttpServlet {
 
 
         // after login
-        //request.setAttribute("numUsers", length);
-        // request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+        int length = numUsers();
+        request.setAttribute("numUsers", length);
+        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
