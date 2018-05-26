@@ -45,6 +45,9 @@ public class AdminServlet extends HttpServlet {
   // Stores hard-coded list of names
   private List<String> names;
 
+  // Site statistics variable
+  private List<String> users;
+
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -58,6 +61,8 @@ public class AdminServlet extends HttpServlet {
     names.add("annepham");
     names.add("jeanette");
     names.add("jorge");
+
+    users = new ArrayList<String>();
   }
 
   /**
@@ -93,6 +98,12 @@ public class AdminServlet extends HttpServlet {
           request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
 
+
+        // after login ?
+        user = loadUsers();
+        int length = user.length();
+        request.setAttribute("numUsers", length);
+        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
@@ -103,6 +114,6 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-      response.sendRedirect("/admin.jsp");
+      request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 }
