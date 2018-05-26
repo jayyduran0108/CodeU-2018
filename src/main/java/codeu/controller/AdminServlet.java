@@ -46,13 +46,12 @@ public class AdminServlet extends HttpServlet {
   // Site statistics variable
   private List<User> users;
 
-
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
    * server, not when running in a test.
    */
   @Override
-  public void init() throws ServletException, PersistentDataStoreException {
+  public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
     names = new ArrayList<String>();
@@ -71,13 +70,18 @@ public class AdminServlet extends HttpServlet {
     this.userStore = userStore;
   }
 
+  void numUsers() throws PersistentDataStoreException {
+    users = dataStore.loadUsers();
+    int length = users.size();
+  }
+
   /**
    * This function fires when a user requests the /admin URL. It simply forwards the request to
    * login.jsp.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException, PersistentDataStoreException {
+      throws IOException, ServletException {
 
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
@@ -98,8 +102,6 @@ public class AdminServlet extends HttpServlet {
 
 
         // after login
-        users = dataStore.loadUsers();
-        int length = users.size();
         request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
