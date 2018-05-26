@@ -45,7 +45,7 @@ public class AdminServlet extends HttpServlet {
 
   // Site statistics variable
   private List<User> users;
-  private int length;
+  private int length = 3;
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -103,7 +103,7 @@ public class AdminServlet extends HttpServlet {
         }
 
         // after login
-        request.setAttribute("numUsers", numUsers(dataStore));
+        request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
