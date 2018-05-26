@@ -30,8 +30,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-
 
 
 public class AdminServlet extends HttpServlet {
@@ -54,7 +52,7 @@ public class AdminServlet extends HttpServlet {
    * server, not when running in a test.
    */
   @Override
-  public void init() throws ServletException {
+  public void init() throws ServletException, PersistentDataStoreException {
     super.init();
     setUserStore(UserStore.getInstance());
     names = new ArrayList<String>();
@@ -99,7 +97,7 @@ public class AdminServlet extends HttpServlet {
         }
 
 
-        // after login ?
+        // after login
         users = dataStore.loadUsers();
         int length = users.size();
         request.setAttribute("numUsers", length);
