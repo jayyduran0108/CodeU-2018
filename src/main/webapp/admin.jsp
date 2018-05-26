@@ -24,18 +24,20 @@
       <h1> Administration </h1>
       <hr/>
       <h2> Site Statistics </h2>
-      <strong> <p> Here are some site stats:
-        <ul>
+      <p> Here are some site stats:
+        <strong> <ul>
           <li> Users: </li>
           <li> Conversations: </li>
           <li> Messages: </li>
           <li> Most active user: </li>
           <li> Newest user: </li>
           <li> Wordiest user: </li>
-        </ul>
-      </p> </strong>
+        </ul> </strong>
+      </p>
       <hr/>
       <h2> Import Data </h2>
+        <p> From source: </p>
+        <button type="button">Submit</button>
   </div>
 
 </body>
