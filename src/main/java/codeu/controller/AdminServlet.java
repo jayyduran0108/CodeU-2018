@@ -102,8 +102,8 @@ public class AdminServlet extends HttpServlet {
 
 
         // after login
-        request.setAttribute("numUsers", length);
-        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+        //request.setAttribute("numUsers", length);
+        // request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
