@@ -85,11 +85,22 @@ public class AdminServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
+        request.setAttribute("numUsers", length);
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
-          return;
+        } else {
+          response.sendRedirect("/admin.jsp");
+        }
+
+        User user = userStore.getUser(username);
+        if (user == null) {
+          // user was not found, don't let them see the admin page
+          System.out.println("Access Denied: does this work" + username);
+          response.sendRedirect("/login");
+        } else {
+          request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
         }
 
         // after login
