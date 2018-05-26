@@ -3,6 +3,7 @@
 <head>
   <title>CodeU Chat App</title>
   <link rel="stylesheet" href="/css/main.css">
+  <script src= "main/java/codeu/controller/AdminServlet.java"> </script>
 </head>
 <body>
   <nav>
