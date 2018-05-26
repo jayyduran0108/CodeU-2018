@@ -70,7 +70,7 @@ public class AdminServlet extends HttpServlet {
     this.userStore = userStore;
   }
 
-  void int numUsers() throws PersistentDataStoreException {
+  int numUsers() throws PersistentDataStoreException {
     users = dataStore.loadUsers();
     int length = users.size();
     return length;
