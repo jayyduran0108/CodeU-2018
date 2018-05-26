@@ -100,8 +100,8 @@ public class AdminServlet extends HttpServlet {
 
 
         // after login ?
-        user = loadUsers();
-        int length = user.length();
+        user = dataStore.loadUsers();
+        int length = user.size();
         request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
