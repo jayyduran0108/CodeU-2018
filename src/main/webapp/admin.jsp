@@ -21,7 +21,6 @@
   <div id="container">
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
-      <center>
       <h1> Administration </h1>
       <br> ___________________________________________________ <br>
       <h2> Site Statistics </h2> <br>
