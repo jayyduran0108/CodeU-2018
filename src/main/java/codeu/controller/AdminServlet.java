@@ -45,7 +45,7 @@ public class AdminServlet extends HttpServlet {
   private List<String> names;
 
   // Site statistics variable
-  private List<String> users;
+  private List<User> users;
 
 
   /**
@@ -61,7 +61,7 @@ public class AdminServlet extends HttpServlet {
     names.add("jeanette");
     names.add("jorge");
 
-    users = new ArrayList<String>();
+    users = new ArrayList<User>();
   }
 
   /**
