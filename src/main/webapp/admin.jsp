@@ -23,8 +23,8 @@
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
       <h1> Administration </h1>
       <hr/>
-      <h2> Site Statistics </h2> <br>
-      <p> Here are some site stats:
+      <h2> Site Statistics </h2>
+      <strong> <p> Here are some site stats:
         <ul>
           <li> Users: </li>
           <li> Conversations: </li>
@@ -33,7 +33,7 @@
           <li> Newest user: </li>
           <li> Wordiest user: </li>
         </ul>
-      </p>
+      </p> </strong>
       <hr/>
       <h2> Import Data </h2>
   </div>
