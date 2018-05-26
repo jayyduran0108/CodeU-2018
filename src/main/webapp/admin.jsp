@@ -22,7 +22,7 @@
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
       <h1> Administration </h1>
-      <br> ___________________________________________________ <br>
+      <hr/>
       <h2> Site Statistics </h2> <br>
       <p> Here are some site stats:
         <ul>
@@ -34,7 +34,7 @@
           <li> Wordiest user: </li>
         </ul>
       </p>
-      <br> ___________________________________________________ <br>
+      <hr/>
       <h2> Import Data </h2>
   </div>
 
