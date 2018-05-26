@@ -18,6 +18,19 @@ import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
 
+// DATA STORE IMPORTS
+import codeu.model.data.Conversation;
+import codeu.model.data.Message;
+import codeu.model.data.User;
+import codeu.model.store.persistence.PersistentDataStoreException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import java.time.Instant;
+
 
 
 public class AdminServlet extends HttpServlet {
@@ -26,7 +39,7 @@ public class AdminServlet extends HttpServlet {
   private UserStore userStore;
 
   // Store class that stores datastore objects
-  //private PersistentDataStore dataStore;
+  private PersistentDataStore dataStore;
 
   // Stores hard-coded list of names
   private List<String> names;
