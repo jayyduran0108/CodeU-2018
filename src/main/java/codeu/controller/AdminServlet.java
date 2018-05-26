@@ -26,7 +26,7 @@ public class AdminServlet extends HttpServlet {
   private UserStore userStore;
 
   // Store class that stores datastore objects
-  private PersistentDataStore dataStore;
+  //private PersistentDataStore dataStore;
 
   // Stores hard-coded list of names
   private List<String> names;
