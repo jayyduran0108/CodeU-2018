@@ -100,11 +100,13 @@ public class AdminServlet extends HttpServlet {
         int numUsers = userStore.getAllUsers().size();
         int numCons = conStore.getAllConversations().size();
         int numMess = messStore.getAllMessages().size();
+        String newestUser = messStore.getNewestUser();
 
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
         request.setAttribute("numMess", numMess);
+        request.setAttribute("numUsers", newestUser);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
