@@ -101,7 +101,6 @@ public class AdminServlet extends HttpServlet {
         int numCons = conStore.getAllConversations().size();
         int numMess = messStore.getAllMessages().size();
 
-        String newestUser = users.get(numUsers).getName();
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
