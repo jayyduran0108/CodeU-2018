@@ -27,7 +27,7 @@
       <h2> Site Statistics </h2>
       <p> Here are some site stats:
         <strong> <ul>
-          <li> Users: getServletContext().getAttribute("numUsers") </li>
+          <li> Users: ${numUsers} </li>
           <li> Conversations: </li>
           <li> Messages: </li>
           <li> Most active user: </li>
