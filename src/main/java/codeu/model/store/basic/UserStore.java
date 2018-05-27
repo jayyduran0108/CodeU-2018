@@ -132,7 +132,8 @@ public class UserStore {
     return users;
   }
 
-    public String getNewestUser() {
-      return users.get(users.size() - 1);
-    }
+  // returns the last user in the list of users and converts it to a name
+  public String getNewestUser() {
+    return users.get(users.size() - 1).getName();
+  }
 }
