@@ -97,7 +97,7 @@ public class AdminServlet extends HttpServlet {
         }
 
         numUsers = userStore.getAllUsers().getSize();
-        numCons = userStore.getAllConversations().getSize();
+        numCons = conStore.getAllConversations().getSize();
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
