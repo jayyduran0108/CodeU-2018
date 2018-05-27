@@ -128,7 +128,11 @@ public class UserStore {
   }
 
   /** Access the current set of users known to the application. */
-    public List<User> getAllUsers() {
-      return users;
+  public List<User> getAllUsers() {
+    return users;
+  }
+
+    public String getNewestUser() {
+      return users.get(users.size() - 1);
     }
 }

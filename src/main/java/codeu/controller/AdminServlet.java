@@ -105,6 +105,7 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
         request.setAttribute("numMess", numMess);
+        request.setAttribute("newUser", getNewestUser());
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
