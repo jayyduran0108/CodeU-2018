@@ -30,6 +30,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
+import codeu.model.store.basic.ConversationStore;
 
 
 
@@ -96,7 +97,7 @@ public class AdminServlet extends HttpServlet {
           return;
         }
 
-        numUsers = userStore.getAllUsers().getSize();
+        numUsers = userStore.returnAllUsers().getSize();
         numCons = conStore.getAllConversations().getSize();
 
         request.setAttribute("numUsers", numUsers);
