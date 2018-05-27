@@ -63,6 +63,8 @@ public class AdminServlet extends HttpServlet {
     names.add("jeanette");
     names.add("jorge");
 
+    setConversationStore(ConversationStore.getInstance());
+
     users = new ArrayList<User>();
     conversations = conStore.getAllConversations();
     numCons = conversations.size();
