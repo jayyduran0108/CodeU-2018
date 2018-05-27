@@ -59,9 +59,10 @@ public class AdminServlet extends HttpServlet {
     names.add("jeanette");
     names.add("jorge");
 
-
     setConStore(ConversationStore.getInstance());
     setMessStore(MessageStore.getInstance());
+
+    users = userStore.getAllUsers();
 
   }
 
@@ -99,6 +100,8 @@ public class AdminServlet extends HttpServlet {
         int numUsers = userStore.getAllUsers().size();
         int numCons = conStore.getAllConversations().size();
         int numMess = messStore.getAllMessages().size();
+
+        String newestUser = users.get(numUsers).getName();
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
