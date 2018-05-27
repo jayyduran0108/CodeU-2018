@@ -100,7 +100,7 @@ public class AdminServlet extends HttpServlet {
         int numUsers = userStore.getAllUsers().size();
         int numCons = conStore.getAllConversations().size();
         int numMess = messStore.getAllMessages().size();
-        String newestUser = messStore.getNewestUser();
+        String newestUser = userStore.getNewestUser();
 
 
         request.setAttribute("numUsers", numUsers);
