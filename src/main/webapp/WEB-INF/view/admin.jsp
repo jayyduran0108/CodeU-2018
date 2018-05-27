@@ -28,7 +28,7 @@
       <p> Here are some site stats:
         <strong> <ul>
           <li> Users: <%= request.getAttribute("numUsers") %> </li>
-          <li> Conversations: </li>
+          <li> Conversations: <%= request.getAttribute("numCons") %>  </li>
           <li> Messages: </li>
           <li> Most active user: </li>
           <li> Newest user: </li>

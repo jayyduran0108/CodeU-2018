@@ -39,13 +39,16 @@ public class AdminServlet extends HttpServlet {
 
   // Store class that stores datastore objects
   private PersistentDataStore dataStore;
+  private ConversationStore conStore;
 
   // Stores hard-coded list of names
   private List<String> names;
 
   // Site statistics variable
   private List<User> users;
-  private int length;
+  private int numUsers;
+  private List<Conversation> conversations;
+  private int numCon;
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -61,6 +64,9 @@ public class AdminServlet extends HttpServlet {
     names.add("jorge");
 
     users = new ArrayList<User>();
+    conversations = conStore.getAllConversations();
+    numCons = conversations.size();
+
   }
 
   /**
@@ -93,7 +99,8 @@ public class AdminServlet extends HttpServlet {
         }
 
         // after login
-        request.setAttribute("numUsers", numUsers());
+        request.setAttribute("numUsers", length);
+        request.setAttribute("numCons", numCons);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
