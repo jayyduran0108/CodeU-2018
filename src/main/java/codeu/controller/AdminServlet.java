@@ -45,7 +45,7 @@ public class AdminServlet extends HttpServlet {
 
   // Site statistics variable
   private List<User> users;
-  private int length = 3;
+  private int length;
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -61,6 +61,7 @@ public class AdminServlet extends HttpServlet {
     names.add("jorge");
 
     users = new ArrayList<User>();
+    length = 3;
   }
 
   /**
@@ -85,7 +86,6 @@ public class AdminServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
-        request.setAttribute("numUsers", length);
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
           // user is not logged in, don't let them see the admin page
