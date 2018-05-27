@@ -65,7 +65,7 @@ public class AdminServlet extends HttpServlet {
     names.add("jorge");
 
 
-    setConversationStore(ConversationStore.getInstance());
+    setConStore(ConversationStore.getInstance());
 
   }
 
