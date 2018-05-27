@@ -77,7 +77,7 @@ public class AdminServlet extends HttpServlet {
     this.userStore = userStore;
   }
 
-  void setConStore(UserStore userStore) {
+  void setConStore(ConversationStore conStore) {
     this.conStore = conStore;
   }
 
