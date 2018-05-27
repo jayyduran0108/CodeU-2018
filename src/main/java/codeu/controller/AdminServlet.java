@@ -96,7 +96,7 @@ public class AdminServlet extends HttpServlet {
         // after login
         request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
-        
+
   }
 
   /**
@@ -107,6 +107,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
+      response.sendRedirect("/admin.jsp");
       request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 }
