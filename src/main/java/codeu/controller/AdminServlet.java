@@ -1,6 +1,5 @@
 package codeu.controller;
 import codeu.model.store.persistence.PersistentDataStore;
-import codeu.model.store.basic.ConversationStore;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -67,8 +66,6 @@ public class AdminServlet extends HttpServlet {
     setConversationStore(ConversationStore.getInstance());
 
     users = new ArrayList<User>();
-    conversations = conStore.getAllConversations();
-    numCons = conversations.size();
 
   }
 
@@ -102,6 +99,8 @@ public class AdminServlet extends HttpServlet {
         }
 
         // after login
+        numCons = conStore.getAllConversations().size();
+
         request.setAttribute("numUsers", length);
         request.setAttribute("numCons", numCons);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
