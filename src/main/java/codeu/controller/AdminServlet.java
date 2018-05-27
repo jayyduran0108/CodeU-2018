@@ -90,12 +90,13 @@ public class AdminServlet extends HttpServlet {
         if (username == null || !names.contains(username)) {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
-        } else {
+          return;
+        }
 
         // after login
         request.setAttribute("numUsers", length);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
-        }
+        
   }
 
   /**
