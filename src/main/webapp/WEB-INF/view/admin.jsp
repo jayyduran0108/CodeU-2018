@@ -29,7 +29,7 @@
         <strong> <ul>
           <li> Users: <%= request.getAttribute("numUsers") %> </li>
           <li> Conversations: <%= request.getAttribute("numCons") %>  </li>
-          <li> Messages: </li>
+          <li> Messages: <%= request.getAttribute("numMess") %> </li>
           <li> Most active user: </li>
           <li> Newest user: </li>
           <li> Wordiest user: </li>

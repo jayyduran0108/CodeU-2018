@@ -31,6 +31,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.MessageStore;
 
 
 
@@ -42,6 +43,7 @@ public class AdminServlet extends HttpServlet {
   // Store class that stores datastore objects
   private PersistentDataStore dataStore;
   private ConversationStore conStore;
+  private MessageStore messStore;
 
   // Stores hard-coded list of names
   private List<String> names;
@@ -67,6 +69,7 @@ public class AdminServlet extends HttpServlet {
 
 
     setConStore(ConversationStore.getInstance());
+    setMessStore(MessageStore.getInstance());
 
   }
 
@@ -80,6 +83,10 @@ public class AdminServlet extends HttpServlet {
 
   void setConStore(ConversationStore conStore) {
     this.conStore = conStore;
+  }
+
+  void setMessStore(MessageStore messStore) {
+    this.messStore = messStore;
   }
 
   /**
@@ -99,9 +106,11 @@ public class AdminServlet extends HttpServlet {
 
         int numUsers = userStore.getAllUsers().size();
         int numCons = conStore.getAllConversations().size();
+        int numMess = messStore.getAllMessages().size();
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
+        request.setAttribute("numMess", numMess);
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
