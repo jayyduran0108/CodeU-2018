@@ -107,6 +107,7 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
+      request.setAttribute("numUsers", length);
       request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 }
