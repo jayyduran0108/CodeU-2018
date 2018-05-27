@@ -84,14 +84,14 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-        
+
         request.setAttribute("numUsers", length);
+        
         String username = (String) request.getSession().getAttribute("user");
         if (username == null || !names.contains(username)) {
           // user is not logged in, don't let them see the admin page
           response.sendRedirect("/login");
-        } else {
-          response.sendRedirect("/admin.jsp");
+          return;
         }
 
         // after login
