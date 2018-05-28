@@ -18,6 +18,7 @@ import codeu.model.store.basic.UserStore;
 import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 // DATA STORE IMPORTS
 import codeu.model.data.Conversation;
@@ -33,18 +34,12 @@ public class AdminServlet extends HttpServlet {
   private UserStore userStore;
 
   // Store class that stores datastore objects
-  private PersistentDataStore dataStore;
   private ConversationStore conStore;
   private MessageStore messStore;
 
   // Stores hard-coded list of names
   private List<String> names;
 
-  // Site statistics variable
-  private List<User> users;
-  private int numUsers;
-  private List<Conversation> conversations;
-  private int numCon;
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -62,12 +57,11 @@ public class AdminServlet extends HttpServlet {
     setConStore(ConversationStore.getInstance());
     setMessStore(MessageStore.getInstance());
 
-    users = userStore.getAllUsers();
-
   }
 
   /**
-   * Sets the UserStore used by this servlet. This function provides a common setup method for use
+   * Sets the UserStore, ConversationStore, and MessasgeStore used by this servlet.
+     This function provides a common setup method for use
    * by the test framework or the servlet's init() function.
    */
   void setUserStore(UserStore userStore) {
@@ -97,24 +91,71 @@ public class AdminServlet extends HttpServlet {
           return;
         }
 
+        // GETTING THE DATA FOR NUMBER OF USERS, CONVERSATIONS, MESSAGES, & NEWEST USER
         int numUsers = userStore.getAllUsers().size();
         int numCons = conStore.getAllConversations().size();
         int numMess = messStore.getAllMessages().size();
         String newestUser = userStore.getNewestUser();
 
+        // GETTING THE MOST ACTIVE USER
+        List<Message> allMessages = messStore.getAllMessages();
+        Map<UUID, Integer> mostActive = new HashMap<UUID, Integer>();
+        for (Message message : allMessages) {
+          UUID currentUser = message.getAuthorId();
+          if (!mostActive.containsKey(currentUser)) {
+            mostActive.put(currentUser, 1);
+          } else {
+            mostActive.put(currentUser, mostActive.get(currentUser) + 1);
+          }
+        }
+
+        int max = 0;
+        UUID activeUser = allMessages.get(0).getAuthorId();
+        for (UUID user : mostActive.keySet()) {
+          if (mostActive.get(user) > max) {
+            max = mostActive.get(user);
+            activeUser = user;
+          }
+        }
+        User userOfActiveUser = userStore.getUser(activeUser);
+        String nameOfActiveUser = userOfActiveUser.getName();
+
+        // GETTING THE WORDIEST USER
+        Map<UUID, Integer> mostWordy = new HashMap<UUID, Integer>();
+        for (Message message : allMessages) {
+          UUID currentUser = message.getAuthorId();
+          String currentMessage = message.getContent();
+          int messageLength = currentMessage.length();
+          if (!mostWordy.containsKey(currentUser)) {
+            mostWordy.put(currentUser, messageLength);
+          } else {
+            mostWordy.put(currentUser, mostWordy.get(currentUser) + messageLength);
+          }
+        }
+
+        int maxWords = 0;
+        UUID wordyUser = allMessages.get(0).getAuthorId();
+        for (UUID user : mostWordy.keySet()) {
+          if (mostWordy.get(user) > max) {
+            maxWords = mostWordy.get(user);
+            wordyUser = user;
+          }
+        }
+        User userOfWordyUser = userStore.getUser(activeUser);
+        String nameOfWordyUser = userOfWordyUser.getName();
 
         request.setAttribute("numUsers", numUsers);
         request.setAttribute("numCons", numCons);
         request.setAttribute("numMess", numMess);
         request.setAttribute("newUser", newestUser);
+        request.setAttribute("activeUser", nameOfActiveUser);
+        request.setAttribute("wordyUser", nameOfWordyUser);
+
         request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
 
   /**
-   * This function fires when a user submits the login form. It gets the username and password from
-   * the submitted form data, checks for validity and if correct adds the username to the session so
-   * we know the user is logged in.
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
