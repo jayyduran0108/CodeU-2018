@@ -52,27 +52,52 @@ public class ProfileServlet extends HttpServlet {
         throws IOException, ServletException {
 
 
-      String username = (String) request.getSession().getAttribute("user");
-      if (username == null) {
-          // user is not logged in, don't let them add a message
-          response.sendRedirect("/login");
-          return;
+        String username = (String) request.getSession().getAttribute("user");
+        if (username == null) {
+            // user is not logged in, don't let them add a message
+            response.sendRedirect("/login");
+            return;
+        }
+        
+        User user = userStore.getUser(username);
+        if (user == null) {
+            // user was not found, don't let them add a message
+            response.sendRedirect("/login");
+            return;
+        }
+
+        String requestUrl = request.getRequestURI();
+        String profile = requestUrl.substring("/users/".length());
+        String biography = user.getBiography();
+
+        request.setAttribute("biography", biography);
+        request.setAttribute("profile",profile);
+
+
+        request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
       }
-      
-      User user = userStore.getUser(username);
-      if (user == null) {
-          // user was not found, don't let them add a message
-          response.sendRedirect("/login");
-          return;
-      }
 
-      String requestUrl = request.getRequestURI();
-      String profile = requestUrl.substring("/users/".length());
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException {
 
+        String biography = request.getParameter("biography");
 
-      request.setAttribute("profile",profile);
+        String requestUrl = request.getRequestURI();
+        String profile = requestUrl.substring("/users/".length());
+        String username = (String) request.getSession().getAttribute("user");
+        User user = userStore.getUser(username);
 
-      request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+        request.setAttribute("profile",profile);
+
+        System.out.println(biography);
+
+        String cleanedBiography = Jsoup.clean(biography, Whitelist.none());
+
+        user.setBiography(cleanedBiography);
+        request.setAttribute("biography", biography);
+        userStore.updateUser(user);
+
+        request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
-
 }
