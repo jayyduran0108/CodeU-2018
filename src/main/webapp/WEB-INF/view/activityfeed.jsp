@@ -84,21 +84,21 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
               Instant instant = u.getCreationTime();
               Date myDate = Date.from(instant);
         %>
-          <li><strong><%= myDate %>:</strong> <%= u.getName() + " joined! " %></li>
+          <li><strong><%= ActivityFeedServlet.DateFormatter.formatDateToString(myDate,"EEE MMM dd yyyy hh:mm:ss a z","PST") %>:</strong> <%= u.getName() + " joined! " %></li>
         <%
           }else if(ids.get(activity.getId()) instanceof Message){
             Message m = (Message) ids.get(activity.getId());
             Instant instant = m.getCreationTime();
             Date myDate = Date.from(instant);
         %>
-          <li><strong><%= myDate %>:</strong> <%= inst.getUser(m.getAuthorId()).getName() + " sent a message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
+          <li><strong><%= ActivityFeedServlet.DateFormatter.formatDateToString(myDate,"EEE MMM dd yyyy hh:mm:ss a z","PST") %>:</strong> <%= inst.getUser(m.getAuthorId()).getName() + " sent a message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
         <%
           }else{
             Conversation c = (Conversation) ids.get(activity.getId());
             Instant instant = c.getCreationTime();
             Date myDate = Date.from(instant);
         %>
-          <li><strong><%= myDate %>:</strong> <%= inst.getUser(c.getOwnerId()).getName() + " created a new conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
+          <li><strong><%= ActivityFeedServlet.DateFormatter.formatDateToString(myDate,"EEE MMM dd yyyy hh:mm:ss a z","PST") %>:</strong> <%= inst.getUser(c.getOwnerId()).getName() + " created a new conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
         <%
             }
           }
