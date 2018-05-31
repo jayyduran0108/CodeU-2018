@@ -69,19 +69,17 @@ public class ActivityFeedServlet extends HttpServlet{
     this.messageStore = messageStore;
   }
 
-
   public static class DateFormatter {
+
+    static String format = "EEE MMM dd yyyy hh:mm:ss a z";
+    static String timeZone = "PST";
 
     /**
      * Utility function to convert java Date to TimeZone format
      *
-     * @param date
-     * @param format
-     * @param timeZone
-     * @return
+     * @param date date to be formatted
      */
-    public static String formatDateToString(Date date, String format,
-                                     String timeZone) {
+    public static String formatDateToString(Date date) {
       // null check
       if (date == null) return null;
       // create SimpleDateFormat object with input format
