@@ -72,6 +72,7 @@ public class ActivityFeedServlet extends HttpServlet{
   public static class DateFormatter {
 
     static final String FORMAT = "EEE MMM dd yyyy hh:mm:ss a z";
+    static final String TIMEZONE = "PST";
 
     /**
      * Utility function to convert java Date to TimeZone format
@@ -79,17 +80,12 @@ public class ActivityFeedServlet extends HttpServlet{
      * @param date date to be formatted
      */
     public static String formatDateToString(Date date) {
-      String timeZone = "PST";
       // null check
       if (date == null) return null;
       // create SimpleDateFormat object with input format
       SimpleDateFormat sdf = new SimpleDateFormat(FORMAT);
-      // default system timezone if passed null or empty
-      if (timeZone == null || "".equalsIgnoreCase(timeZone.trim())) {
-        timeZone = Calendar.getInstance().getTimeZone().getID();
-      }
       // set timezone to SimpleDateFormat
-      sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
+      sdf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
       // return Date in required format with timezone as String
       return sdf.format(date);
     }
