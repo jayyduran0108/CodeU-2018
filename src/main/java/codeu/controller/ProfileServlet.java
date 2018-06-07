@@ -20,84 +20,84 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 public class ProfileServlet extends HttpServlet {
+    
+  /** Store class that gives access to Users. */
+  private UserStore userStore;
 
-    /** Store class that gives access to Users. */
-    private UserStore userStore;
+  /**
+  * Set up state for handling profile-related requests. This method is only called when running in a
+  * server, not when running in a test.
+  */
+  @Override
+  public void init() throws ServletException {
+    super.init();
+    setUserStore(UserStore.getInstance());
+  }
 
-
-    /**
-    * Set up state for handling profile-related requests. This method is only called when running in a
-    * server, not when running in a test.
-    */
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        setUserStore(UserStore.getInstance());
+  /**
+  * Sets the UserStore used by this servlet. This function provides a common setup method for use
+  * by the test framework or the servlet's init() function.
+  */
+  void setUserStore(UserStore userStore) {
+    this.userStore = userStore;
     }
 
-    /**
-    * Sets the UserStore used by this servlet. This function provides a common setup method for use
-    * by the test framework or the servlet's init() function.
-    */
-    void setUserStore(UserStore userStore) {
-        this.userStore = userStore;
+  /**
+  * This function fires when a user navigates to the profile page.
+  */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws IOException, ServletException {
+
+
+    String username = (String) request.getSession().getAttribute("user");
+    if (username == null) {
+      // user is not logged in, don't let them add a message
+      response.sendRedirect("/login");
+      return;
     }
-
-  
-    /**
-    * This function fires when a user navigates to the profile page.
-    */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
-
-
-        String username = (String) request.getSession().getAttribute("user");
-        if (username == null) {
-            // user is not logged in, don't let them add a message
-            response.sendRedirect("/login");
-            return;
-        }
         
-        User user = userStore.getUser(username);
-        if (user == null) {
-            // user was not found, don't let them add a message
-            response.sendRedirect("/login");
-            return;
-        }
-
-        String requestUrl = request.getRequestURI();
-        String profile = requestUrl.substring("/users/".length());
-        String biography = user.getBiography();
-
-        request.setAttribute("biography", biography);
-        request.setAttribute("profile",profile);
-
-
-        request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+    User user = userStore.getUser(username);
+    System.out.println(username);
+    if (user == null) {
+      // user was not found, don't let them add a message
+      response.sendRedirect("/login");
+      return;
       }
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+    String requestUrl = request.getRequestURI();
+    String profile = requestUrl.substring("/users/".length());
+    System.out.println(profile);
+    String biography = user.getBiography();
 
-        String biography = request.getParameter("biography");
+    request.setAttribute("biography", biography);
+    request.setAttribute("profile",profile);
 
-        String requestUrl = request.getRequestURI();
-        String profile = requestUrl.substring("/users/".length());
-        String username = (String) request.getSession().getAttribute("user");
-        User user = userStore.getUser(username);
 
-        request.setAttribute("profile",profile);
+    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+      }
 
-        System.out.println(biography);
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws IOException, ServletException {
 
-        String cleanedBiography = Jsoup.clean(biography, Whitelist.none());
+    String biography = request.getParameter("biography");
 
-        user.setBiography(cleanedBiography);
-        request.setAttribute("biography", biography);
-        userStore.updateUser(user);
+    String requestUrl = request.getRequestURI();
+    String profile = requestUrl.substring("/users/".length());
+    String username = (String) request.getSession().getAttribute("user");
+    User user = userStore.getUser(username);
 
-        request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+    request.setAttribute("profile",profile);
+
+    System.out.println(biography);
+
+    String cleanedBiography = Jsoup.clean(biography, Whitelist.none());
+
+    user.setBiography(cleanedBiography);
+    request.setAttribute("biography", biography);
+    userStore.updateUser(user);
+
+    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
 }
