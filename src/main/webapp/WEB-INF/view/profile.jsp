@@ -18,6 +18,7 @@
 <%
 String profile = (String) request.getAttribute("profile");
 String user = (String) request.getSession().getAttribute("user");
+String biography = (String) request.getAttribute("biography");
 %>
 
 <!DOCTYPE html>
@@ -30,7 +31,7 @@ String user = (String) request.getSession().getAttribute("user");
   <nav>
     <a id="navTitle" href="/">CodeU Chat App</a>
     <a href="/conversations">Conversations</a>
-      <% if (request.getSession().getAttribute("user") != null) { %>
+      <%if (request.getSession().getAttribute("user") != null) { %>
     <a> Hello <%= request.getSession().getAttribute("user") %>!</a>
     <% } else { %>
       <a href="/login">Login</a>
@@ -40,8 +41,16 @@ String user = (String) request.getSession().getAttribute("user");
   <div id= "container">
     <% if (user.equals(profile)) { %>
       <h1> Welcome to your Profile! </h1>
+      <h2> Edit your Bio </h2>
+      <form action = "/users/<%=user%>" method="POST">
+        <input type="text" name="biography">
+        <br/>
+        <button type="submit">Send</button>
+      </form>
     <% } else { %>
       <h1> Welcome to <%=profile%>'s Profile </h1>
+      <h2> Biography </h2>
+      <p> <%= biography%> </p>
     <% } %>
   </div>
 </body>
