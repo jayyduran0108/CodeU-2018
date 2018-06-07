@@ -19,6 +19,8 @@
 String profile = (String) request.getAttribute("profile");
 String user = (String) request.getSession().getAttribute("user");
 String biography = (String) request.getAttribute("biography");
+String profileBio = (String) request.getAttribute("profileBio");
+
 %>
 
 <!DOCTYPE html>
@@ -39,6 +41,7 @@ String biography = (String) request.getAttribute("biography");
     <a href="/about.jsp">About</a>
   </nav>
   <div id= "container">
+
     <% if (user.equals(profile)) { %>
       <h1> Welcome to your Profile! </h1>
       <h2> Edit your Bio </h2>
@@ -47,10 +50,18 @@ String biography = (String) request.getAttribute("biography");
         <br/>
         <button type="submit">Send</button>
       </form>
+      <p> This is your biography: <%= biography %> </p>
+
     <% } else { %>
       <h1> Welcome to <%=profile%>'s Profile </h1>
       <h2> Biography </h2>
-      <p> <%= biography%> </p>
+
+      <% if (profileBio.equals("")) { %>
+      <p> <%=profile%> has not set up their biography! </p>
+      <% } else { %>
+      <p> <%= profileBio%> </p>
+      <% } %>
+
     <% } %>
   </div>
 </body>

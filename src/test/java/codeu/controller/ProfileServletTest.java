@@ -61,16 +61,26 @@ public class ProfileServletTest {
             "$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfHy",
             Instant.now(),
             "");
+    User fakeProfileUser =
+        new User(
+            UUID.randomUUID(),
+            "test_profile",
+            "$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfH",
+            Instant.now(),
+            "");
     String fakeBiography = fakeUser.getBiography();
+    String fakeProBio = fakeProfileUser.getBiography();
 
     Mockito.when(mockRequest.getSession().getAttribute("user")).thenReturn("test_username");
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    Mockito.when(mockUserStore.getUser("test_profile")).thenReturn(fakeProfileUser);
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/users/test_profile");
 
     profileServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequest).setAttribute("biography", fakeBiography);
     Mockito.verify(mockRequest).setAttribute("profile", "test_profile");
+    Mockito.verify(mockRequest).setAttribute("profileBio", fakeProBio);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 
 
@@ -85,22 +95,23 @@ public class ProfileServletTest {
             "$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfHy",
             Instant.now(),
             "");
-
-    User newFakeUser =
+    User fakeProfileUser =
         new User(
             UUID.randomUUID(),
-            "test_username",
-            "$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfHy",
+            "test_profile",
+            "$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfH",
             Instant.now(),
-            "This is my fake biography");
+            "");
 
     String fakeBiography = fakeUser.getBiography();
+    String fakeProBio = fakeProfileUser.getBiography();
 
     Mockito.when(mockRequest.getParameter("biography")).thenReturn("This is my fake biography");
 
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/users/test_profile");
     Mockito.when(mockRequest.getSession().getAttribute("user")).thenReturn("test_username");
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+    Mockito.when(mockUserStore.getUser("test_profile")).thenReturn(fakeProfileUser);
 
 
     profileServlet.doPost(mockRequest, mockResponse);
@@ -108,6 +119,7 @@ public class ProfileServletTest {
     Mockito.verify(mockUserStore).updateUser(userArgumentCaptor.capture());
 
     Mockito.verify(mockRequest).setAttribute("profile", "test_profile");
+    Mockito.verify(mockRequest).setAttribute("profileBio", fakeProBio);
     Mockito.verify(mockRequest).setAttribute("biography", userArgumentCaptor.getValue().getBiography());
 
     Assert.assertEquals(
