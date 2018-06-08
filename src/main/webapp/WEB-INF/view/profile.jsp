@@ -20,7 +20,6 @@ String profile = (String) request.getAttribute("profile");
 String user = (String) request.getSession().getAttribute("user");
 String biography = (String) request.getAttribute("biography");
 String profileBio = (String) request.getAttribute("profileBio");
-
 %>
 
 <!DOCTYPE html>

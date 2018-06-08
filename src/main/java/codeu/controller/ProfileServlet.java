@@ -68,10 +68,10 @@ public class ProfileServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
     String profile = requestUrl.substring("/users/".length());
     String biography = user.getBiography();
-    //access profile's biography
+    // access profile's biography
     User profilePage = userStore.getUser(profile);
     String profileBio = profilePage.getBiography();
-    //send these values to jsp file
+    // send these values to jsp file
     request.setAttribute("profileBio", profileBio);
     request.setAttribute("biography", biography);
     request.setAttribute("profile",profile);
@@ -83,16 +83,16 @@ public class ProfileServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
-    //access the submitted biography
+    // access the submitted biography
     String biography = request.getParameter("biography");
-    //find the profile's username to redirect
+    // find the profile's username to redirect
     String requestUrl = request.getRequestURI();
     String profile = requestUrl.substring("/users/".length());
     String username = (String) request.getSession().getAttribute("user");
     User user = userStore.getUser(username);
     User profilePage = userStore.getUser(profile);
     String profileBiography = profilePage.getBiography();
-    //send profile attributes to jsp file
+    // send profile attributes to jsp file
     request.setAttribute("profileBio", profileBiography);
     request.setAttribute("profile",profile);
     // this removes any HTML from the message content
