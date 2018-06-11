@@ -15,6 +15,11 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,7 +69,30 @@ public class ActivityFeedServlet extends HttpServlet{
     this.messageStore = messageStore;
   }
 
-  /**
+  public static class DateFormatter {
+
+    static final String FORMAT = "EEE MMM dd yyyy hh:mm:ss a z";
+    static final String TIMEZONE = "PST";
+
+    /**
+     * Utility function to convert java Date to TimeZone format
+     *
+     * @param date date to be formatted
+     */
+    public static String formatDateToString(Date date) {
+      // null check
+      if (date == null) return null;
+      // create SimpleDateFormat object with input format
+      SimpleDateFormat sdf = new SimpleDateFormat(FORMAT);
+      // set timezone to SimpleDateFormat
+      sdf.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+      // return Date in required format with timezone as String
+      return sdf.format(date);
+    }
+  }
+
+
+    /**
    * Subclass to combine activities together even if they are from different types.
    */
   public static class Item implements Comparable<Item>{
