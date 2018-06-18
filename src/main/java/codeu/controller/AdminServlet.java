@@ -1,32 +1,21 @@
 package codeu.controller;
-import codeu.model.store.persistence.PersistentDataStore;
 
-import java.io.IOException;
-import java.time.Instant;
-import java.util.UUID;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.mindrot.jbcrypt.BCrypt;
-
-import codeu.model.data.User;
-import codeu.model.store.basic.UserStore;
-
-import java.util.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
-
-// DATA STORE IMPORTS
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 
+import java.util.UUID;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+
+import codeu.model.data.User;
+import codeu.model.store.basic.UserStore;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class AdminServlet extends HttpServlet {
 
@@ -82,7 +71,7 @@ public class AdminServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {    
+      throws IOException, ServletException {
     String username = (String) request.getSession().getAttribute("user");
     if (username == null || !names.contains(username)) {
       // user is not logged in, don't let them see the admin page
@@ -154,8 +143,6 @@ public class AdminServlet extends HttpServlet {
 
   }
 
-  /**
-   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
