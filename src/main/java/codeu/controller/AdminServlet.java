@@ -82,76 +82,75 @@ public class AdminServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+      throws IOException, ServletException {    
+    String username = (String) request.getSession().getAttribute("user");
+    if (username == null || !names.contains(username)) {
+      // user is not logged in, don't let them see the admin page
+      response.sendRedirect("/login");
+      return;
+    }
 
-        String username = (String) request.getSession().getAttribute("user");
-        if (username == null || !names.contains(username)) {
-          // user is not logged in, don't let them see the admin page
-          response.sendRedirect("/login");
-          return;
-        }
+    // GETTING THE DATA FOR NUMBER OF USERS, CONVERSATIONS, MESSAGES, & NEWEST USER
+    int numUsers = userStore.getAllUsers().size();
+    int numCons = conStore.getAllConversations().size();
+    int numMess = messStore.getAllMessages().size();
+    String newestUser = userStore.getNewestUser();
 
-        // GETTING THE DATA FOR NUMBER OF USERS, CONVERSATIONS, MESSAGES, & NEWEST USER
-        int numUsers = userStore.getAllUsers().size();
-        int numCons = conStore.getAllConversations().size();
-        int numMess = messStore.getAllMessages().size();
-        String newestUser = userStore.getNewestUser();
+    // GETTING THE MOST ACTIVE USER
+    List<Message> allMessages = messStore.getAllMessages();
+    Map<UUID, Integer> mostActive = new HashMap<UUID, Integer>();
+    for (Message message : allMessages) {
+      UUID currentUser = message.getAuthorId();
+      if (!mostActive.containsKey(currentUser)) {
+        mostActive.put(currentUser, 1);
+      } else {
+        mostActive.put(currentUser, mostActive.get(currentUser) + 1);
+      }
+    }
 
-        // GETTING THE MOST ACTIVE USER
-        List<Message> allMessages = messStore.getAllMessages();
-        Map<UUID, Integer> mostActive = new HashMap<UUID, Integer>();
-        for (Message message : allMessages) {
-          UUID currentUser = message.getAuthorId();
-          if (!mostActive.containsKey(currentUser)) {
-            mostActive.put(currentUser, 1);
-          } else {
-            mostActive.put(currentUser, mostActive.get(currentUser) + 1);
-          }
-        }
+    int max = 0;
+    UUID activeUser = allMessages.get(0).getAuthorId();
+    for (UUID user : mostActive.keySet()) {
+      if (mostActive.get(user) > max) {
+        max = mostActive.get(user);
+        activeUser = user;
+      }
+    }
+    User userOfActiveUser = userStore.getUser(activeUser);
+    String nameOfActiveUser = userOfActiveUser.getName();
 
-        int max = 0;
-        UUID activeUser = allMessages.get(0).getAuthorId();
-        for (UUID user : mostActive.keySet()) {
-          if (mostActive.get(user) > max) {
-            max = mostActive.get(user);
-            activeUser = user;
-          }
-        }
-        User userOfActiveUser = userStore.getUser(activeUser);
-        String nameOfActiveUser = userOfActiveUser.getName();
+    // GETTING THE WORDIEST USER
+    Map<UUID, Integer> mostWordy = new HashMap<UUID, Integer>();
+    for (Message message : allMessages) {
+      UUID currentUser = message.getAuthorId();
+      String currentMessage = message.getContent();
+      int messageLength = currentMessage.length();
+      if (!mostWordy.containsKey(currentUser)) {
+        mostWordy.put(currentUser, messageLength);
+      } else {
+        mostWordy.put(currentUser, mostWordy.get(currentUser) + messageLength);
+      }
+    }
 
-        // GETTING THE WORDIEST USER
-        Map<UUID, Integer> mostWordy = new HashMap<UUID, Integer>();
-        for (Message message : allMessages) {
-          UUID currentUser = message.getAuthorId();
-          String currentMessage = message.getContent();
-          int messageLength = currentMessage.length();
-          if (!mostWordy.containsKey(currentUser)) {
-            mostWordy.put(currentUser, messageLength);
-          } else {
-            mostWordy.put(currentUser, mostWordy.get(currentUser) + messageLength);
-          }
-        }
+    int maxWords = 0;
+    UUID wordyUser = allMessages.get(0).getAuthorId();
+    for (UUID user : mostWordy.keySet()) {
+      if (mostWordy.get(user) > max) {
+        maxWords = mostWordy.get(user);
+        wordyUser = user;
+      }
+    }
+    User userOfWordyUser = userStore.getUser(activeUser);
+    String nameOfWordyUser = userOfWordyUser.getName();
 
-        int maxWords = 0;
-        UUID wordyUser = allMessages.get(0).getAuthorId();
-        for (UUID user : mostWordy.keySet()) {
-          if (mostWordy.get(user) > max) {
-            maxWords = mostWordy.get(user);
-            wordyUser = user;
-          }
-        }
-        User userOfWordyUser = userStore.getUser(activeUser);
-        String nameOfWordyUser = userOfWordyUser.getName();
+    request.setAttribute("numUsers", numUsers);
+    request.setAttribute("numCons", numCons);
+    request.setAttribute("numMess", numMess);
+    request.setAttribute("newUser", newestUser);
+    request.setAttribute("activeUser", nameOfActiveUser);
+    request.setAttribute("wordyUser", nameOfWordyUser);
 
-        request.setAttribute("numUsers", numUsers);
-        request.setAttribute("numCons", numCons);
-        request.setAttribute("numMess", numMess);
-        request.setAttribute("newUser", newestUser);
-        request.setAttribute("activeUser", nameOfActiveUser);
-        request.setAttribute("wordyUser", nameOfWordyUser);
-
-        request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 
   }
 
