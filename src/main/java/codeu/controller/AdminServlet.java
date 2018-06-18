@@ -1,4 +1,4 @@
-package codeu.controller;
+getUsers()package codeu.controller;
 
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
@@ -80,9 +80,9 @@ public class AdminServlet extends HttpServlet {
     }
 
     // GETTING THE DATA FOR NUMBER OF USERS, CONVERSATIONS, MESSAGES, & NEWEST USER
-    int numUsers = userStore.getAllUsers().size();
+    int numUsers = userStore.getUsers().size();
     int numCons = conStore.getAllConversations().size();
-    int numMess = messStore.getAllMessages().size();
+    int numMess = messStore.getMessages().size();
     String newestUser = userStore.getNewestUser();
 
     // GETTING THE MOST ACTIVE USER

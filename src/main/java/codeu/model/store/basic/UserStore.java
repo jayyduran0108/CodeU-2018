@@ -128,7 +128,7 @@ public class UserStore {
   }
 
   /** Access the current set of users known to the application. */
-  public List<User> getAllUsers() {
+  public List<User> getUsers() {
     return users;
   }
 
