@@ -90,7 +90,7 @@ public class MessageStore {
     this.messages = messages;
   }
 
-  /** Access the current set of messages known to the application. */
+  /** Return the In-memory list of messages. */
   public List<Message> getMessages() {
     return messages;
   }
