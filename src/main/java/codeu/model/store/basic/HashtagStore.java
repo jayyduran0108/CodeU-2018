@@ -66,7 +66,7 @@ public class HashtagStore {
     hashtags = new ArrayList<>();
   }
 
-/** Access the current set of hashtags known to the application. */
+  /** Access the current set of hashtags known to the application. */
   public List<Hashtag> getAllHashtags() {
     return hashtags;
   }
