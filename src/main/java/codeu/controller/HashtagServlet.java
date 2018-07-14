@@ -107,25 +107,6 @@ public class HashtagServlet extends HttpServlet{
     request.setAttribute("ids", ids);
     request.setAttribute("title",hashtagTitle);
 
-//    Hashtag hashtag = HashtagStore.getHashtag(hashtagTitle);
-//    if (hashtag == null) {
-//      // hashtag does not exist
-//      response.sendRedirect("/conversations");
-//      return;
-//    }
-//
-//    // get the username of the profile
-//    String requestUrl = request.getRequestURI();
-//    String profile = requestUrl.substring("/users/".length());
-//    String biography = user.getBiography();
-//    // access profile's biography
-//    User profilePage = userStore.getUser(profile);
-//    String profileBio = profilePage.getBiography();
-//    // send these values to jsp file
-//    request.setAttribute("profileBio", profileBio);
-//    request.setAttribute("biography", biography);
-//    request.setAttribute("profile",profile);
-
     request.getRequestDispatcher("/WEB-INF/view/hashtag.jsp").forward(request, response);
   }
 }
