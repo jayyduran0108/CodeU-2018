@@ -14,6 +14,7 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
+<%@ page import="codeu.model.data.Hashtag" %>
 
 <!DOCTYPE html>
 <html>
@@ -43,18 +44,18 @@
     <% } %>
 
 
-    <h1>Hashtags</h1>
+    <h1>Hashtag</h1>
 
     <%
-    List<String> hashtags =
-      (List<String>) request.getAttribute("hashtags");
+    List<Hashtag> hashtags =
+      (List<Hashtag>) request.getAttribute("hashtags");
     %>
       <ul class="mdl-list">
     <%
-      for(String hash : hashtags){
+      for(Hashtag hash : hashtags){
     %>
-      <li><a href="/chat/<%=hash  %>">
-            #<%=hash  %></a></li
+      <li><a href="/hashtaglist/<%= hash.getHashTitle() %>">
+            #<%= hash.getHashTitle() %></a></li
       </ul>
     <%
     }

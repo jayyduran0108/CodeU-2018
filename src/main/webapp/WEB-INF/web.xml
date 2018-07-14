@@ -93,7 +93,7 @@
 
   <servlet-mapping>
     <servlet-name>HashListServlet</servlet-name>
-    <url-pattern>/hashlist</url-pattern>
+    <url-pattern>/hashlist/*</url-pattern>
   </servlet-mapping>
 
 </web-app>

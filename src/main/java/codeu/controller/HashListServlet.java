@@ -15,9 +15,11 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Hashtag;
 import codeu.model.data.User;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.HashtagStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class HashListServlet extends HttpServlet {
   /**
    * Store class that gives access to Hashtags.
    */
-  //private HashtagStore hashtagStore;
+  private HashtagStore hashtagStore;
 
   /**
    * Set up state for handling hashtag-related requests. This method is only called when
@@ -43,7 +45,7 @@ public class HashListServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
-   // setHashtagStore(UserStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
 
@@ -51,9 +53,9 @@ public class HashListServlet extends HttpServlet {
    * Sets the ConversationStore used by this servlet. This function provides a common setup method
    * for use by the test framework or the servlet's init() function.
    */
-  //void setHashtagStore(HashtagStore HashtagStore) {
-  //  this.HashtagStore = hashtagStore;
-  //}
+  void setHashtagStore(HashtagStore hashtagStore) {
+    this.hashtagStore = hashtagStore;
+  }
 
   /**
    * This function fires when a user navigates to the hashtags page. It gets all of the
@@ -62,12 +64,12 @@ public class HashListServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    List<String> hashtags = new ArrayList<>();
-    hashtags.add("happy");
-    hashtags.add("funny");
-    hashtags.add("food");
-    hashtags.add("favorite places");
-    hashtags.add("family");
+    List<Hashtag> hashtags = hashtagStore.getAllHashtags();
+    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Happy",Instant.EPOCH));
+    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Funny",Instant.EPOCH));
+    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Food",Instant.EPOCH));
+    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Favorite places",Instant.EPOCH));
+    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Family",Instant.EPOCH));
     request.setAttribute("hashtags", hashtags);
     request.getRequestDispatcher("/WEB-INF/view/hashlist.jsp").forward(request, response);
   }
