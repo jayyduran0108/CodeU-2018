@@ -131,7 +131,6 @@ public class UserStore {
   public List<User> getUsers() {
     return users;
   }
-}
 
 
   // returns the last user in the list of users and converts it to a name

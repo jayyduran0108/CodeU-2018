@@ -5,16 +5,17 @@ import codeu.model.data.Message;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class AdminServlet extends HttpServlet {
@@ -80,13 +81,13 @@ public class AdminServlet extends HttpServlet {
     }
 
     // GETTING THE DATA FOR NUMBER OF USERS, CONVERSATIONS, MESSAGES, & NEWEST USER
-    int numUsers = userStore.getAllUsers().size();
+    int numUsers = userStore.getUsers().size();
     int numCons = conStore.getAllConversations().size();
-    int numMess = messStore.getAllMessages().size();
+    int numMess = messStore.getMessages().size();
     String newestUser = userStore.getNewestUser();
 
     // GETTING THE MOST ACTIVE USER
-    List<Message> allMessages = messStore.getAllMessages();
+    List<Message> allMessages = messStore.getMessages();
     Map<UUID, Integer> mostActive = new HashMap<UUID, Integer>();
     for (Message message : allMessages) {
       UUID currentUser = message.getAuthorId();
