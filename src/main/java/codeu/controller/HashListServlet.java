@@ -45,7 +45,7 @@ public class HashListServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
-   setHashtagStore(HashtagStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
 
@@ -64,7 +64,7 @@ public class HashListServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    List<Hashtag> hashtags = new ArrayList<>();/*hashtagStore.getAllHashtags();*/
+    List<Hashtag> hashtags = new ArrayList<>();
     hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Happy",Instant.EPOCH));
     hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Funny",Instant.EPOCH));
     hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Food",Instant.EPOCH));
