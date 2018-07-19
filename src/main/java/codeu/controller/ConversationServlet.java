@@ -119,5 +119,16 @@ public class ConversationServlet extends HttpServlet {
     conversationStore.addConversation(conversation);
     System.out.println(conversationTitle);
     response.sendRedirect("/chat/" + conversationTitle);
+
+
+    // WHERE HASHTAG CREATION STARTS
+    if (conversationTitle.contains("#")) {
+      String hashtagTitle = conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+      if (!hashtagStore.isTitleTaken(hashtagTitle)) {
+        Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+      } else {
+        response.sendRedirect("/chat/" + conversationTitle);
+      }
+    }
   }
 }

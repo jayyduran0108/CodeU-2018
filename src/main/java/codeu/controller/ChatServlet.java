@@ -155,5 +155,15 @@ public class ChatServlet extends HttpServlet {
 
     // redirect to a GET request
     response.sendRedirect("/chat/" + conversationTitle);
+
+    // WHERE HASHTAG CREATION STARTS
+    if (messageContent.contains("#")) {
+      String hashtagTitle = messageContent.substring(messageContent.indexOf("#") + 1);
+      if (!hashtagStore.isTitleTaken(hashtagTitle)) {
+        Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+      } else {
+        response.sendRedirect("/chat/" + messageContent);
+      }
+    }
   }
 }
