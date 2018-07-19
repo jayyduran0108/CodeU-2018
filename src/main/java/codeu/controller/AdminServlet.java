@@ -5,7 +5,8 @@ import codeu.model.data.Message;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 
-import java.util.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class AdminServlet extends HttpServlet {

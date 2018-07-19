@@ -1,5 +1,5 @@
 <%--
-  Copyright 2017 Google Inc.
+  Copyright 2018 Google Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,10 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
+<%@ page import="java.util.List" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Hashtags</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -30,26 +32,34 @@
       <a href="/login">Login</a>
     <% } %>
     <a href="/about.jsp">About</a>
-    <a href="/admin"> Admin </a>
     <a href="/activity">Activity Feed</a>
     <a href="/hashlist">Hashtags</a>
   </nav>
 
   <div id="container">
-    <div
-      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>CodeU Chat App</h1>
-      <h2>Welcome!</h2>
+    <% if(request.getAttribute("error") != null){ %>
+        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
+    <% } %>
 
-      <ul>
-        <li><a href="/login">Login</a> to get started.</li>
-        <li>Go to the <a href="/conversations">conversations</a> page to
-            create or join a conversation.</li>
-        <li>View the <a href="/about.jsp">about</a> page to learn more about the
-            project.</li>
+
+    <h1>Hashtags</h1>
+
+    <%
+    List<String> hashtags =
+      (List<String>) request.getAttribute("hashtags");
+    %>
+      <ul class="mdl-list">
+    <%
+      for(String hash : hashtags){
+    %>
+      <li><a href="/chat/<%=hash  %>">
+            #<%=hash  %></a></li
       </ul>
-    </div>
+    <%
+    }
+    %>
+    <hr/>
   </div>
 </body>
 </html>
