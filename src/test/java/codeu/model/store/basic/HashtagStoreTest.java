@@ -4,6 +4,8 @@ import codeu.model.data.Hashtag;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import org.junit.Assert;
@@ -25,9 +27,9 @@ public class HashtagStoreTest {
     mockPersistentStorageAgent = Mockito.mock(PersistentStorageAgent.class);
     hashtagStore = HashtagStore.getTestInstance(mockPersistentStorageAgent);
 
-    final List<Hashtag> hashtagList = new ArrayList<>();
-    hashtagList.add(HASHTAG_ONE);
-    hashtagStore.setHashtags(hashtagList);
+    final Set<Hashtag> hashtagSet = new HashSet<>();
+    hashtagSet.add(HASHTAG_ONE);
+    hashtagStore.setHashtags(hashtagSet);
   }
 
   @Test

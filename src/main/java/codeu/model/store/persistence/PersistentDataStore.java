@@ -107,7 +107,9 @@ public class PersistentDataStore {
         String hashtags= (String) entity.getProperty("hashtags");
         String[] hashtagIds = hashtags.split(" ");
         for (String hashtagId : hashtagIds) {
-          conversation.addHashtag(UUID.fromString(hashtagId));
+          if (!hashtagId.isEmpty()) {
+            conversation.addHashtag(UUID.fromString(hashtagId));
+          }
         }
         conversations.add(conversation);
       } catch (Exception e) {
@@ -147,7 +149,9 @@ public class PersistentDataStore {
         String hashtags= (String) entity.getProperty("hashtags");
         String[] hashtagIds = hashtags.split(" ");
         for (String hashtagId : hashtagIds) {
-          message.addHashtag(UUID.fromString(hashtagId));
+          if (!hashtagId.isEmpty()) {
+            message.addHashtag(UUID.fromString(hashtagId));
+          }
         }
         messages.add(message);
       } catch (Exception e) {
@@ -179,12 +183,16 @@ public class PersistentDataStore {
         String conversations= (String) entity.getProperty("conversations");
         String[] conversationIds = conversations.split(" ");
         for (String conversationId : conversationIds) {
-          hashtag.addConversation(UUID.fromString(conversationId));
+          if (!conversationId.isEmpty()) {
+            hashtag.addConversation(UUID.fromString(conversationId));
+          }
         }
         String messages= (String) entity.getProperty("messages");
         String[] messageIds = messages.split(" ");
         for (String messageId : messageIds) {
-          hashtag.addMessage(UUID.fromString(messageId));
+          if (!messageId.isEmpty()) {
+            hashtag.addMessage(UUID.fromString(messageId));
+          }
         }
         hashtags.add(hashtag);
       } catch (Exception e) {
@@ -218,7 +226,7 @@ public class PersistentDataStore {
     messageEntity.setProperty("content", message.getContent());
     messageEntity.setProperty("creation_time", message.getCreationTime().toString());
     String hashtags = "";
-    for (UUID id : message.hashtags) {
+    for (UUID id : message.getHashtags()) {
       hashtags += id.toString() + " ";
     }
     messageEntity.setProperty("hashtags",hashtags.trim());
@@ -233,7 +241,7 @@ public class PersistentDataStore {
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
     String hashtags = "";
-    for (UUID id : conversation.hashtags) {
+    for (UUID id : conversation.getHashtags()) {
       hashtags += id.toString() + " ";
     }
     conversationEntity.setProperty("hashtags",hashtags.trim());
@@ -251,12 +259,12 @@ public class PersistentDataStore {
     for (UUID id : hashtag.conversations) {
       conversations += id.toString() + " ";
     }
-    hastagEntity.setProperty("conversations",conversations.trim());
+    hashtagEntity.setProperty("conversations",conversations.trim());
     String messages = "";
     for (UUID id : hashtag.messages) {
       messages += id.toString() + " ";
     }
-    hastagEntity.setProperty("messages",messages.trim());
+    hashtagEntity.setProperty("messages",messages.trim());
     datastore.put(hashtagEntity);
   }
 }

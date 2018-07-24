@@ -101,7 +101,7 @@ public class HashtagStore {
   }
 
   /** Sets the List of hashtags stored by this HashtagStore. */
-  public void setHashtags(List<Hashtag> hashtags) {
+  public void setHashtags(Set<Hashtag> hashtags) {
     this.hashtags = hashtags;
   }
 

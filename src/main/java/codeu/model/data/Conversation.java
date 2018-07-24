@@ -66,6 +66,9 @@ public class Conversation {
     return creation;
   }
 
+  public Set<UUID> getHashtags() {
+    return hashtags;
+  }
 
   public void addHashtag(UUID id) {
     hashtags.add(id);
