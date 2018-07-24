@@ -108,6 +108,7 @@ public class ConversationServletTest {
   @Test
   public void testDoPost_BadConversationName() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("bad !@#$% name");
+    Mockito.when(mockRequest.getParameter("action")).thenReturn("create");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
     User fakeUser =
@@ -130,6 +131,7 @@ public class ConversationServletTest {
   @Test
   public void testDoPost_ConversationNameTaken() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
+    Mockito.when(mockRequest.getParameter("action")).thenReturn("create");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
     User fakeUser =
@@ -153,6 +155,7 @@ public class ConversationServletTest {
   @Test
   public void testDoPost_NewConversation() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
+    Mockito.when(mockRequest.getParameter("action")).thenReturn("create");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
     User fakeUser =
