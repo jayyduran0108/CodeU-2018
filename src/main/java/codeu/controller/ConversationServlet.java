@@ -115,6 +115,18 @@ public class ConversationServlet extends HttpServlet {
         new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
     if(action.equals("create")) {
       if (!conversationTitle.matches("[\\w*]*")) {
+//=======
+//    boolean hasHashtag = conversationTitle.contains("#");
+//    String hashtagTitle = "";
+//    if (!conversationTitle.matches("[\\w*]*")) {
+//      if (hasHashtag) {
+//        hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//        if (hashtagStore.isTitleTaken(hashtagTitle) == false) {
+//          Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+//          hashtagStore.addHashtag(hashtag);
+//        }
+//      } else {
+//>>>>>>> 515036079df4a10893b3d9aea832f61bba071468
         request.setAttribute("error", "Please enter only letters and numbers.");
         request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
         return;
@@ -143,5 +155,38 @@ public class ConversationServlet extends HttpServlet {
       hashtag.addConversation(conversation.getId());
       hashtagStore.addHashtag(hashtag);
     }
+//=======
+//    }
+//
+//    if (conversationStore.isTitleTaken(conversationTitle)) {
+//      // conversation title is already taken, just go into that conversation instead of creating a
+//      // new one
+//      if (hasHashtag) {
+//      // hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//        response.sendRedirect("/chat/" + hashtagTitle);
+//      } else {
+//        response.sendRedirect("/chat/" + conversationTitle);
+//      }
+//      return;
+//    }
+//
+//    Conversation conversation;
+//    if (hasHashtag) {
+//      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle.substring(conversationTitle.indexOf("#") + 1), Instant.now());
+//    } else {
+//      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+//    }
+//
+//    conversationStore.addConversation(conversation);
+//    System.out.println(conversationTitle);
+//    if (hasHashtag) {
+//      //hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//      response.sendRedirect("/chat/" + hashtagTitle);
+//    } else {
+//      response.sendRedirect("/chat/" + conversationTitle);
+//    }
+//
+//
+//>>>>>>> 515036079df4a10893b3d9aea832f61bba071468
   }
 }
