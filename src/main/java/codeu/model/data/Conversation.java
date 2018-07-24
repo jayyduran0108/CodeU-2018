@@ -15,6 +15,7 @@
 package codeu.model.data;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class Conversation {
   public final UUID owner;
   public final Instant creation;
   public final String title;
-  private Set<String> hashtagIds;
+  public final Set<UUID> hashtags;
 
   /**
    * Constructs a new Conversation.
@@ -42,6 +43,7 @@ public class Conversation {
     this.owner = owner;
     this.creation = creation;
     this.title = title;
+    this.hashtags = new HashSet<>();
   }
 
   /** Returns the ID of this Conversation. */
@@ -64,7 +66,12 @@ public class Conversation {
     return creation;
   }
 
-  public void addTag(String tag) {
-    hashtagIds.add(tag);
+
+  public void addHashtag(UUID id) {
+    hashtags.add(id);
+  }
+
+  public void removeHashtag(UUID id) {
+    hashtags.remove(id);
   }
 }
