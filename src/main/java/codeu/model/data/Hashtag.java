@@ -16,6 +16,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Class representing a hashtag

@@ -45,7 +45,7 @@
 
     <% if(request.getSession().getAttribute("user") != null){ %>
       <h1>New Conversation</h1>
-      <form action="/conversations" method="POST">
+      <form action="/conversations?action=create" method="POST">
           <div class="form-group">
             <label class="form-control-label">Title:</label>
           <input type="text" name="conversationTitle">
@@ -74,7 +74,16 @@
       for(Conversation conversation : conversations){
     %>
       <li><a href="/chat/<%= conversation.getTitle() %>">
-        <%= conversation.getTitle() %></a></li>
+        <%= conversation.getTitle() %></a>
+        <form action="/conversations?action=update" method="POST">
+                  <div class="form-group">
+                    <label class="form-control-label">Title:</label>
+                  <input type="text" name="hashtagTitle">
+                </div>
+
+                <button type="submit">Create</button>
+              </form>
+      </li>
     <%
       }
     %>

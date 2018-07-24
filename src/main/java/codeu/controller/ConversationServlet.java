@@ -15,8 +15,10 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Hashtag;
 import codeu.model.data.User;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.HashtagStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
@@ -36,6 +38,8 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
+  private HashtagStore hashtagStore;
+
   /**
    * Set up state for handling conversation-related requests. This method is only called when
    * running in a server, not when running in a test.
@@ -45,6 +49,7 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
   /**
@@ -61,6 +66,10 @@ public class ConversationServlet extends HttpServlet {
    */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
+  }
+
+  void setHashtagStore(HashtagStore hashtagStore) {
+    this.hashtagStore = hashtagStore;
   }
 
   /**
@@ -84,6 +93,7 @@ public class ConversationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
+    String action = request.getParameter("action");
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
       // user is not logged in, don't let them create a conversation
@@ -99,25 +109,39 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
+    Conversation conversation;
     String conversationTitle = request.getParameter("conversationTitle");
-    if (!conversationTitle.matches("[\\w*]*")) {
-      request.setAttribute("error", "Please enter only letters and numbers.");
-      request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
-      return;
-    }
-
-    if (conversationStore.isTitleTaken(conversationTitle)) {
-      // conversation title is already taken, just go into that conversation instead of creating a
-      // new one
-      response.sendRedirect("/chat/" + conversationTitle);
-      return;
-    }
-
-    Conversation conversation =
+    conversation =
         new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+    if(action.equals("create")) {
+      if (!conversationTitle.matches("[\\w*]*")) {
+        request.setAttribute("error", "Please enter only letters and numbers.");
+        request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+        return;
+      }
+      if (conversationStore.isTitleTaken(conversationTitle)) {
+        // conversation title is already taken, just go into that conversation instead of creating a
+        // new one
+        response.sendRedirect("/chat/" + conversationTitle);
+        return;
+      }
 
-    conversationStore.addConversation(conversation);
-    System.out.println(conversationTitle);
-    response.sendRedirect("/chat/" + conversationTitle);
+      conversationStore.addConversation(conversation);
+      System.out.println(conversationTitle);
+      response.sendRedirect("/chat/" + conversationTitle);
+    } else if (action.equals("update")) {
+      String hashtagTitle = request.getParameter("hashtagTitle");
+      Hashtag hashtag;
+      if (hashtagStore.isTitleTaken(hashtagTitle)) {
+        hashtag = hashtagStore.getHashtagWithHashTitle(hashtagTitle);
+
+      } else {
+        hashtag = new Hashtag(UUID.randomUUID(),user.getId(),hashtagTitle,Instant.now());
+      }
+
+      conversation.addHashtag(hashtag.getId());
+      hashtag.addConversation(conversation.getId());
+      hashtagStore.addHashtag(hashtag);
+    }
   }
 }
