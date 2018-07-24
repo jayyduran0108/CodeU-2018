@@ -15,6 +15,8 @@
 package codeu.model.data;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -63,6 +65,7 @@ public class Conversation {
   public Instant getCreationTime() {
     return creation;
   }
+
 
   public void addHashtag(UUID id) {
     hashtags.add(id);

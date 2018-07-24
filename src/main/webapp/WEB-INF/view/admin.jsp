@@ -26,19 +26,16 @@
       <hr/>
       <h2> Site Statistics </h2>
       <p> Here are some site stats:
-        <strong> <ul>
-          <li> Users: <%= request.getAttribute("numUsers") %> </li>
-          <li> Conversations: <%= request.getAttribute("numCons") %>  </li>
-          <li> Messages: <%= request.getAttribute("numMess") %> </li>
-          <li> Most active user: <%= request.getAttribute("activeUser") %> </li>
-          <li> Newest user: <%= request.getAttribute("newUser") %></li>
-          <li> Wordiest user: <%= request.getAttribute("wordyUser") %></li>
-        </ul> </strong>
+         <ul>
+          <li> <strong> Users: </strong> <%= request.getAttribute("numUsers") %> </li>
+          <li> <strong> Conversations: </strong> <%= request.getAttribute("numCons") %>  </li>
+          <li> <strong> Messages: </strong> <%= request.getAttribute("numMess") %> </li>
+          <li> <strong> Most active user: </strong> <%= request.getAttribute("activeUser") %> </li>
+          <li> <strong> Newest user: </strong> <%= request.getAttribute("newUser") %></li>
+          <li> <strong> Wordiest user: </strong> <%= request.getAttribute("wordyUser") %></li>
+        </ul>
       </p>
       <hr/>
-      <h2> Import Data </h2>
-      <p> From source: </p>
-      <button type="button">Submit</button>
   </div>
 
 </body>
