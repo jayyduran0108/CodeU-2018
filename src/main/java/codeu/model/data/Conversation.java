@@ -26,6 +26,7 @@ public class Conversation {
   public final UUID owner;
   public final Instant creation;
   public final String title;
+  public final Set<UUID> hashtags;
 
   /**
    * Constructs a new Conversation.
@@ -40,6 +41,7 @@ public class Conversation {
     this.owner = owner;
     this.creation = creation;
     this.title = title;
+    this.hashtags = new HashSet<>();
   }
 
   /** Returns the ID of this Conversation. */
@@ -60,5 +62,13 @@ public class Conversation {
   /** Returns the creation time of this Conversation. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  public void addHashtag(UUID id) {
+    hashtags.add(id);
+  }
+
+  public void removeHashtag(UUID id) {
+    hashtags.remove(id);
   }
 }

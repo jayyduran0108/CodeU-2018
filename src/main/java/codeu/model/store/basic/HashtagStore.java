@@ -122,7 +122,7 @@ public class HashtagStore {
     List<Hashtag> hashtagResults = new ArrayList();
     for (String hash : hashtagList) {
       if (hash.startsWith("#")) {
-        String hashtagName = hash.substring(hash.indexOf("#")+1);
+        String hashtagName = hash.substring(1);
         hashtagResults.add(hashtagName);
       }
     }
