@@ -176,6 +176,7 @@ public class ChatServlet extends HttpServlet {
       hashtagTitle = messageContent.substring(messageContent.indexOf("#") + 1);
       if (!hashtagStore.isTitleTaken(hashtagTitle)) {
         Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+        hashtagStore.addHashtag(hashtag);
       } else {
         response.sendRedirect("/chat/" + messageContent);
       }

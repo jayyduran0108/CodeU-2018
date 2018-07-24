@@ -114,11 +114,14 @@ public class ConversationServlet extends HttpServlet {
     }
 
     String conversationTitle = request.getParameter("conversationTitle");
+    boolean hasHashtag = conversationTitle.contains("#");
+    String hashtagTitle = "";
     if (!conversationTitle.matches("[\\w*]*")) {
-      if (conversationTitle.contains("#")) {
-        String hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+      if (hasHashtag) {
+        hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
         if (hashtagStore.isTitleTaken(hashtagTitle) == false) {
           Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+          hashtagStore.addHashtag(hashtag);
         }
       } else {
         request.setAttribute("error", "Please enter only letters and numbers.");
@@ -130,8 +133,8 @@ public class ConversationServlet extends HttpServlet {
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
       // new one
-      if (conversationTitle.contains("#")) {
-        String hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+      if (hasHashtag) {
+      // hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
         response.sendRedirect("/chat/" + hashtagTitle);
       } else {
         response.sendRedirect("/chat/" + conversationTitle);
@@ -140,7 +143,7 @@ public class ConversationServlet extends HttpServlet {
     }
 
     Conversation conversation;
-    if (conversationTitle.contains("#")) {
+    if (hasHashtag) {
       conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle.substring(conversationTitle.indexOf("#") + 1), Instant.now());
     } else {
       conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
@@ -148,8 +151,8 @@ public class ConversationServlet extends HttpServlet {
 
     conversationStore.addConversation(conversation);
     System.out.println(conversationTitle);
-    if (conversationTitle.contains("#")) {
-      String hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+    if (hasHashtag) {
+      //hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
       response.sendRedirect("/chat/" + hashtagTitle);
     } else {
       response.sendRedirect("/chat/" + conversationTitle);
