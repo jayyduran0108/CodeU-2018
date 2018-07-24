@@ -40,6 +40,21 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
 <head>
   <title>CodeU Chat App</title>
   <link rel="stylesheet" href="/css/main.css">
+  <style>
+      #hashtag {
+          background-color: white;
+          height: 500px;
+          overflow-y: scroll
+      }
+    </style>
+
+    <script>
+      // scroll the activity feed div to the bottom
+      function scrollChat() {
+         var chatDiv = document.getElementById('hashtag');
+         chatDiv.scrollTop = chatDiv.scrollHeight;
+      };
+    </script>
 </head>
 <body onload="scrollChat()">
 
@@ -67,6 +82,7 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
     </p>
 
     <div id="hashtag">
+    <ul>
     <%
     ConversationStore ConvInst = ConversationStore.getInstance();
       HashtagStore hashInst = HashtagStore.getInstance();
@@ -90,7 +106,7 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
         }
       }
     %>
-
+    </ul>
     </div>
 
     <hr/>
