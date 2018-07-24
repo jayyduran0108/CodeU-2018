@@ -117,4 +117,16 @@ public class HashtagStore {
     return null;
   }
 
+  public List<Hashtag> getHashtagsFromContent(String title) {
+    String[] hashtagList = title.split(" ");
+    List<Hashtag> hashtagResults = new ArrayList();
+    for (String hash : hashtagList) {
+      if (hash.startsWith("#")) {
+        String hashtagName = hash.substring(hash.indexOf("#")+1);
+        hashtagResults.add(hashtagName);
+      }
+    }
+    return hashtagResults;
+  }
+
 }
