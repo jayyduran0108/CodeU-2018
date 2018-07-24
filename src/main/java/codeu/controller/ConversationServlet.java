@@ -38,7 +38,6 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
-  /** Store class that gives access to Hashtags. */
   private HashtagStore hashtagStore;
 
   /**
@@ -69,13 +68,9 @@ public class ConversationServlet extends HttpServlet {
     this.conversationStore = conversationStore;
   }
 
-  /**
-   * Sets the HashtagStore used by this servlet. This function provides a common setup method for use
-   * by the test framework or the servlet's init() function.
-   */
-   void setHashtagStore(HashtagStore hashtagStore) {
-     this.hashtagStore = hashtagStore;
-   }
+  void setHashtagStore(HashtagStore hashtagStore) {
+    this.hashtagStore = hashtagStore;
+  }
 
   /**
    * This function fires when a user navigates to the conversations page. It gets all of the
@@ -98,6 +93,7 @@ public class ConversationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 
+    String action = request.getParameter("action");
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
       // user is not logged in, don't let them create a conversation
@@ -113,51 +109,84 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
+    Conversation conversation;
     String conversationTitle = request.getParameter("conversationTitle");
-    boolean hasHashtag = conversationTitle.contains("#");
-    String hashtagTitle = "";
-    if (!conversationTitle.matches("[\\w*]*")) {
-      if (hasHashtag) {
-        hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
-        if (hashtagStore.isTitleTaken(hashtagTitle) == false) {
-          Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
-          hashtagStore.addHashtag(hashtag);
-        }
-      } else {
+    conversation =
+        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+    if(action.equals("create")) {
+      if (!conversationTitle.matches("[\\w*]*")) {
+//=======
+//    boolean hasHashtag = conversationTitle.contains("#");
+//    String hashtagTitle = "";
+//    if (!conversationTitle.matches("[\\w*]*")) {
+//      if (hasHashtag) {
+//        hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//        if (hashtagStore.isTitleTaken(hashtagTitle) == false) {
+//          Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+//          hashtagStore.addHashtag(hashtag);
+//        }
+//      } else {
+//>>>>>>> 515036079df4a10893b3d9aea832f61bba071468
         request.setAttribute("error", "Please enter only letters and numbers.");
         request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
         return;
       }
-    }
-
-    if (conversationStore.isTitleTaken(conversationTitle)) {
-      // conversation title is already taken, just go into that conversation instead of creating a
-      // new one
-      if (hasHashtag) {
-      // hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
-        response.sendRedirect("/chat/" + hashtagTitle);
-      } else {
+      if (conversationStore.isTitleTaken(conversationTitle)) {
+        // conversation title is already taken, just go into that conversation instead of creating a
+        // new one
         response.sendRedirect("/chat/" + conversationTitle);
+        return;
       }
-      return;
-    }
 
-    Conversation conversation;
-    if (hasHashtag) {
-      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle.substring(conversationTitle.indexOf("#") + 1), Instant.now());
-    } else {
-      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
-    }
-
-    conversationStore.addConversation(conversation);
-    System.out.println(conversationTitle);
-    if (hasHashtag) {
-      //hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
-      response.sendRedirect("/chat/" + hashtagTitle);
-    } else {
+      conversationStore.addConversation(conversation);
+      System.out.println(conversationTitle);
       response.sendRedirect("/chat/" + conversationTitle);
+    } else if (action.equals("update")) {
+      String hashtagTitle = request.getParameter("hashtagTitle");
+      Hashtag hashtag;
+      if (hashtagStore.isTitleTaken(hashtagTitle)) {
+        hashtag = hashtagStore.getHashtagWithHashTitle(hashtagTitle);
+
+      } else {
+        hashtag = new Hashtag(UUID.randomUUID(),user.getId(),hashtagTitle,Instant.now());
+      }
+
+      conversation.addHashtag(hashtag.getId());
+      hashtag.addConversation(conversation.getId());
+      hashtagStore.addHashtag(hashtag);
     }
-
-
+//=======
+//    }
+//
+//    if (conversationStore.isTitleTaken(conversationTitle)) {
+//      // conversation title is already taken, just go into that conversation instead of creating a
+//      // new one
+//      if (hasHashtag) {
+//      // hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//        response.sendRedirect("/chat/" + hashtagTitle);
+//      } else {
+//        response.sendRedirect("/chat/" + conversationTitle);
+//      }
+//      return;
+//    }
+//
+//    Conversation conversation;
+//    if (hasHashtag) {
+//      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle.substring(conversationTitle.indexOf("#") + 1), Instant.now());
+//    } else {
+//      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+//    }
+//
+//    conversationStore.addConversation(conversation);
+//    System.out.println(conversationTitle);
+//    if (hasHashtag) {
+//      //hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+//      response.sendRedirect("/chat/" + hashtagTitle);
+//    } else {
+//      response.sendRedirect("/chat/" + conversationTitle);
+//    }
+//
+//
+//>>>>>>> 515036079df4a10893b3d9aea832f61bba071468
   }
 }
