@@ -104,6 +104,11 @@ public class PersistentDataStore {
         String title = (String) entity.getProperty("title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime);
+        String hashtags= (String) entity.getProperty("hashtags");
+        String[] hashtagIds = hashtags.split(" ");
+        for (String hashtagId : hashtagIds) {
+          conversation.addHashtag(UUID.fromString(hashtagId));
+        }
         conversations.add(conversation);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -139,6 +144,11 @@ public class PersistentDataStore {
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         String content = (String) entity.getProperty("content");
         Message message = new Message(uuid, conversationUuid, authorUuid, content, creationTime);
+        String hashtags= (String) entity.getProperty("hashtags");
+        String[] hashtagIds = hashtags.split(" ");
+        for (String hashtagId : hashtagIds) {
+          message.addHashtag(UUID.fromString(hashtagId));
+        }
         messages.add(message);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -166,6 +176,16 @@ public class PersistentDataStore {
         String hashTitle = (String) entity.getProperty("hashTitle");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         Hashtag hashtag = new Hashtag(uuid, posterUuid, hashTitle, creationTime);
+        String conversations= (String) entity.getProperty("conversations");
+        String[] conversationIds = conversations.split(" ");
+        for (String conversationId : conversationIds) {
+          hashtag.addConversation(UUID.fromString(conversationId));
+        }
+        String messages= (String) entity.getProperty("messages");
+        String[] messageIds = messages.split(" ");
+        for (String messageId : messageIds) {
+          hashtag.addMessage(UUID.fromString(messageId));
+        }
         hashtags.add(hashtag);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -197,6 +217,11 @@ public class PersistentDataStore {
     messageEntity.setProperty("author_uuid", message.getAuthorId().toString());
     messageEntity.setProperty("content", message.getContent());
     messageEntity.setProperty("creation_time", message.getCreationTime().toString());
+    String hashtags = "";
+    for (UUID id : message.hashtags) {
+      hashtags += id.toString() + " ";
+    }
+    messageEntity.setProperty("hashtags",hashtags.trim());
     datastore.put(messageEntity);
   }
 
@@ -207,6 +232,11 @@ public class PersistentDataStore {
     conversationEntity.setProperty("owner_uuid", conversation.getOwnerId().toString());
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
+    String hashtags = "";
+    for (UUID id : conversation.hashtags) {
+      hashtags += id.toString() + " ";
+    }
+    conversationEntity.setProperty("hashtags",hashtags.trim());
     datastore.put(conversationEntity);
   }
 
@@ -217,6 +247,16 @@ public class PersistentDataStore {
     hashtagEntity.setProperty("poster_uuid", hashtag.getPosterId().toString());
     hashtagEntity.setProperty("hashTitle", hashtag.getHashTitle());
     hashtagEntity.setProperty("creation_time", hashtag.getCreationTime().toString());
+    String conversations = "";
+    for (UUID id : hashtag.conversations) {
+      conversations += id.toString() + " ";
+    }
+    hastagEntity.setProperty("conversations",conversations.trim());
+    String messages = "";
+    for (UUID id : hashtag.messages) {
+      messages += id.toString() + " ";
+    }
+    hastagEntity.setProperty("messages",messages.trim());
     datastore.put(hashtagEntity);
   }
 }

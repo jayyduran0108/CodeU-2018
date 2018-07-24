@@ -17,9 +17,11 @@ package codeu.controller;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Hashtag;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.HashtagStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -43,6 +45,8 @@ public class ChatServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  private HashtagStore hashtagStore;
+
   /** Set up state for handling chat requests. */
   @Override
   public void init() throws ServletException {
@@ -50,6 +54,7 @@ public class ChatServlet extends HttpServlet {
     setConversationStore(ConversationStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
   /**
@@ -74,6 +79,10 @@ public class ChatServlet extends HttpServlet {
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
+  }
+
+  void setHashtagStore(HashtagStore hashtagStore) {
+    this.hashtagStore = hashtagStore;
   }
 
   /**
@@ -143,6 +152,8 @@ public class ChatServlet extends HttpServlet {
     // this removes any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
 
+    List<String> Hashtags = hashTagStore.getHashtagsFromContent(cleanedMessageContent);
+
     Message message =
         new Message(
             UUID.randomUUID(),
@@ -151,7 +162,26 @@ public class ChatServlet extends HttpServlet {
             cleanedMessageContent,
             Instant.now());
 
+    for (String hashtagName : Hashtags) {
+      Hashtag hashtag;
+      if (hashtagStore.isTitleTaken(hashtagName)) {
+        hashtag = hashtagStore.getHashtagWithHashTitle(hashtagName);
+      } else {
+        hashtag = 
+          new Hashtag(
+            UUID.randomUUID(),
+            user.getId(),
+            hashtagName,
+            Instant.now());
+        
+      }
+      hashtag.addMessage(message.getId());
+      message.addHashtag(hashtag.getId());
+      hashtagStore.addHashtag(hashtag);
+    }
+
     messageStore.addMessage(message);
+
 
     // redirect to a GET request
     response.sendRedirect("/chat/" + conversationTitle);
