@@ -18,10 +18,12 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Hashtag;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Hashtag;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.HashtagStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.HashtagStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -157,6 +159,8 @@ public class ChatServlet extends HttpServlet {
     // this removes any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
 
+    List<String> Hashtags = hashtagStore.getHashtagsFromContent(cleanedMessageContent);
+
     Message message =
         new Message(
             UUID.randomUUID(),
@@ -165,7 +169,26 @@ public class ChatServlet extends HttpServlet {
             cleanedMessageContent,
             Instant.now());
 
+    for (String hashtagName : Hashtags) {
+      Hashtag hashtag;
+      if (hashtagStore.isTitleTaken(hashtagName)) {
+        hashtag = hashtagStore.getHashtagWithHashTitle(hashtagName);
+      } else {
+        hashtag = 
+          new Hashtag(
+            UUID.randomUUID(),
+            user.getId(),
+            hashtagName,
+            Instant.now());
+        
+      }
+      hashtag.addMessage(message.getId());
+      message.addHashtag(hashtag.getId());
+      hashtagStore.addHashtag(hashtag);
+    }
+
     messageStore.addMessage(message);
+
 
     // redirect to a GET request
     response.sendRedirect("/chat/" + conversationTitle);

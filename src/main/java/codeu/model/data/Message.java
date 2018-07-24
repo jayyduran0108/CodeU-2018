@@ -16,6 +16,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
 
 /** Class representing a message. Messages are sent by a User in a Conversation. */
 public class Message {
@@ -68,6 +70,10 @@ public class Message {
   /** Returns the creation time of this Message. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  public Set<UUID> getHashtags() {
+    return hashtags;
   }
 
   public void addHashtag(UUID id) {

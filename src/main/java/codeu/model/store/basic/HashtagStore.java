@@ -19,6 +19,8 @@ import codeu.model.data.Hashtag;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -58,17 +60,17 @@ public class HashtagStore {
   private PersistentStorageAgent persistentStorageAgent;
 
   /** The in-memory list of Hashtags. */
-  private List<Hashtag> hashtags;
+  private Set<Hashtag> hashtags;
 
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private HashtagStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
-    hashtags = new ArrayList<>();
+    hashtags = new HashSet<>();
   }
 
   /** Access the current set of hashtags known to the application. */
   public List<Hashtag> getAllHashtags() {
-    return hashtags;
+    return new ArrayList<>(hashtags);
   }
 
   /** Add a new hashtag to the current set of hashtags known to the application. */
@@ -99,7 +101,7 @@ public class HashtagStore {
   }
 
   /** Sets the List of hashtags stored by this HashtagStore. */
-  public void setHashtags(List<Hashtag> hashtags) {
+  public void setHashtags(Set<Hashtag> hashtags) {
     this.hashtags = hashtags;
   }
 
@@ -117,9 +119,9 @@ public class HashtagStore {
     return null;
   }
 
-  public List<Hashtag> getHashtagsFromContent(String title) {
+  public List<String> getHashtagsFromContent(String title) {
     String[] hashtagList = title.split(" ");
-    List<Hashtag> hashtagResults = new ArrayList();
+    List<String> hashtagResults = new ArrayList();
     for (String hash : hashtagList) {
       if (hash.startsWith("#")) {
         String hashtagName = hash.substring(1);
