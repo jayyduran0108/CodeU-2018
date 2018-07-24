@@ -105,6 +105,9 @@ public class PersistentDataStore {
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime);
         String hashtags= (String) entity.getProperty("hashtags");
+        if(hashtags == null ) {
+          hashtags = "";
+        }
         String[] hashtagIds = hashtags.split(" ");
         for (String hashtagId : hashtagIds) {
           if (!hashtagId.isEmpty()) {
@@ -147,6 +150,9 @@ public class PersistentDataStore {
         String content = (String) entity.getProperty("content");
         Message message = new Message(uuid, conversationUuid, authorUuid, content, creationTime);
         String hashtags= (String) entity.getProperty("hashtags");
+        if(hashtags == null) {
+          hashtags = "";
+        }
         String[] hashtagIds = hashtags.split(" ");
         for (String hashtagId : hashtagIds) {
           if (!hashtagId.isEmpty()) {
@@ -181,6 +187,9 @@ public class PersistentDataStore {
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         Hashtag hashtag = new Hashtag(uuid, posterUuid, hashTitle, creationTime);
         String conversations= (String) entity.getProperty("conversations");
+        if(conversations == null) {
+          conversations = "";
+        }
         String[] conversationIds = conversations.split(" ");
         for (String conversationId : conversationIds) {
           if (!conversationId.isEmpty()) {
@@ -188,6 +197,9 @@ public class PersistentDataStore {
           }
         }
         String messages= (String) entity.getProperty("messages");
+        if(messages == null) {
+          messages = "";
+        }
         String[] messageIds = messages.split(" ");
         for (String messageId : messageIds) {
           if (!messageId.isEmpty()) {

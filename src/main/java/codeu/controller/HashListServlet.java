@@ -64,12 +64,7 @@ public class HashListServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    List<Hashtag> hashtags = new ArrayList<>();
-    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Happy",Instant.EPOCH));
-    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Funny",Instant.EPOCH));
-    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Food",Instant.EPOCH));
-    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Favorite places",Instant.EPOCH));
-    hashtags.add(new Hashtag(UUID.randomUUID(),UUID.randomUUID(),"Family",Instant.EPOCH));
+    List<Hashtag> hashtags = hashtagStore.getAllHashtags();
     request.setAttribute("hashtags", hashtags);
     request.getRequestDispatcher("/WEB-INF/view/hashlist.jsp").forward(request, response);
   }

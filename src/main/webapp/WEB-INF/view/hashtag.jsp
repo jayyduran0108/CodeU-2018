@@ -29,10 +29,12 @@
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%@ page import="codeu.model.store.basic.ConversationStore" %>
+<%@ page import="java.util.ArrayList" %>
+
 <%
 String title = (String) request.getAttribute("title");
-PriorityQueue<ActivityFeedServlet.Item> hashtags = (PriorityQueue<ActivityFeedServlet.Item>) request.getAttribute("hashtags");
-Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
+ArrayList<Conversation> conversations1 = (ArrayList) request.getAttribute("conversations1");
+ArrayList<Message> messages1 = (ArrayList) request.getAttribute("messages1");
 %>
 
 <!DOCTYPE html>
@@ -84,27 +86,20 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
     <div id="hashtag">
     <ul>
     <%
-    ConversationStore ConvInst = ConversationStore.getInstance();
-      HashtagStore hashInst = HashtagStore.getInstance();
-      UserStore inst = UserStore.getInstance();
-      while(!hashtags.isEmpty()){
-        ActivityFeedServlet.Item hashtag = hashtags.poll();
-        if(ids.get(hashtag.getId()) instanceof Message){
-           Message m = (Message) ids.get(hashtag.getId());
-           Instant instant = m.getCreationTime();
-           Date myDate = Date.from(instant);
+
+        UserStore inst = UserStore.getInstance();
+        ConversationStore ConvInst = ConversationStore.getInstance();
+        for(Message m: messages1) {
+
     %>
-      <li><strong><%= ActivityFeedServlet.DateFormatter.formatDateToString(myDate) %>: </strong>Message: <%= inst.getUser(m.getAuthorId()).getName() + " sent a message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
+      <li><strong></strong>Message: <%= inst.getUser(m.getAuthorId()).getName() + " created a hashtag message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
     <%
-      }else{
-        Conversation c = (Conversation) ids.get(hashtag.getId());
-        Instant instant = c.getCreationTime();
-        Date myDate = Date.from(instant);
-    %>
-      <li><strong><%= ActivityFeedServlet.DateFormatter.formatDateToString(myDate) %>: </strong>Conversation: <%= inst.getUser(c.getOwnerId()).getName() + " created a new conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
-    <%
-        }
       }
+      for (Conversation c : conversations1) {
+    %>
+      <li><strong> </strong>Conversation: <%= inst.getUser(c.getOwnerId()).getName() + " created a Hashtag conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
+    <%
+       }
     %>
     </ul>
     </div>

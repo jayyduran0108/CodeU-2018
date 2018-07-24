@@ -77,8 +77,9 @@
         <%= conversation.getTitle() %></a>
         <form action="/conversations?action=update" method="POST">
                   <div class="form-group">
-                    <label class="form-control-label">Title:</label>
+                    <label class="form-control-label">Hashtag:</label>
                   <input type="text" name="hashtagTitle">
+                  <input type="hidden" value="<%=conversation.getTitle()%>" name="conversationTitle">
                 </div>
 
                 <button type="submit">Create</button>

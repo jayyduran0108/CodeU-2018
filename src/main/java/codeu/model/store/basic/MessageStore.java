@@ -94,4 +94,13 @@ public class MessageStore {
   public List<Message> getMessages() {
     return messages;
   }
+
+  public Message getMessage(UUID id) {
+    for (Message message: getMessages()) {
+      if (message.getId().equals(id)) {
+        return message;
+      }
+    }
+    return null;
+  }
 }

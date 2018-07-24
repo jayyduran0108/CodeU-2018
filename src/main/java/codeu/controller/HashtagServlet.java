@@ -12,14 +12,7 @@ import codeu.model.store.basic.HashtagStore;
 import java.io.IOException;
 import java.time.Instant;
 
-import java.util.UUID;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.util.*;
 
 import java.text.SimpleDateFormat;
 
@@ -73,28 +66,21 @@ public class HashtagServlet extends HttpServlet{
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    PriorityQueue<ActivityFeedServlet.Item> fringe = new PriorityQueue<>();
-    Map<UUID, Object> ids = new HashMap<>();
-
-    List<Conversation> conversations = conversationStore.getAllConversations();
-    List<Message> messages = messageStore.getMessages();
 
     String requestUrl = request.getRequestURI();
     String hashtagTitle = requestUrl.substring("/hashtag/".length());
     Hashtag hashtag = hashtagStore.getHashtagWithHashTitle(hashtagTitle);
 
-    for(Conversation c: conversations){
+    List<Conversation> conversations1 = new ArrayList<>();
+    for(UUID id: hashtag.conversations){
       /*if(hashtag.getHashTitle().equals("c.getHashtag()")) {*/
-        fringe.add(new ActivityFeedServlet.Item(c));
-        ids.put(c.getId(), c);
-
+        conversations1.add(conversationStore.getConversation(id));
     }
 
-    for(Message m: messages){
+    List<Message> messages1 = new ArrayList<>();
+    for(UUID id: hashtag.messages){
       /*if(hashtag.getHashTitle().equals("m.getHashtag()")) {*/
-        fringe.add(new ActivityFeedServlet.Item(m));
-        ids.put(m.getId(), m);
-
+      messages1.add(messageStore.getMessage(id));
     }
 
     if (hashtagTitle == null) {
@@ -103,8 +89,8 @@ public class HashtagServlet extends HttpServlet{
       return;
     }
 
-    request.setAttribute("hashtags", fringe);
-    request.setAttribute("ids", ids);
+    request.setAttribute("conversations1", conversations1);
+    request.setAttribute("messages1", messages1);
     request.setAttribute("title",hashtagTitle);
 
     request.getRequestDispatcher("/WEB-INF/view/hashtag.jsp").forward(request, response);
