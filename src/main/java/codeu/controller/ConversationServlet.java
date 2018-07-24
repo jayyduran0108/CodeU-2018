@@ -15,8 +15,10 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Hashtag;
 import codeu.model.data.User;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.HashtagStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
@@ -36,6 +38,9 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
+  /** Store class that gives access to Hashtags. */
+  private HashtagStore hashtagStore;
+
   /**
    * Set up state for handling conversation-related requests. This method is only called when
    * running in a server, not when running in a test.
@@ -45,6 +50,7 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
   /**
@@ -62,6 +68,14 @@ public class ConversationServlet extends HttpServlet {
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
   }
+
+  /**
+   * Sets the HashtagStore used by this servlet. This function provides a common setup method for use
+   * by the test framework or the servlet's init() function.
+   */
+   void setHashtagStore(HashtagStore hashtagStore) {
+     this.hashtagStore = hashtagStore;
+   }
 
   /**
    * This function fires when a user navigates to the conversations page. It gets all of the
@@ -100,24 +114,50 @@ public class ConversationServlet extends HttpServlet {
     }
 
     String conversationTitle = request.getParameter("conversationTitle");
+    boolean hasHashtag = conversationTitle.contains("#");
+    String hashtagTitle = "";
     if (!conversationTitle.matches("[\\w*]*")) {
-      request.setAttribute("error", "Please enter only letters and numbers.");
-      request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
-      return;
+      if (hasHashtag) {
+        hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+        if (hashtagStore.isTitleTaken(hashtagTitle) == false) {
+          Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+          hashtagStore.addHashtag(hashtag);
+        }
+      } else {
+        request.setAttribute("error", "Please enter only letters and numbers.");
+        request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+        return;
+      }
     }
 
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
       // new one
-      response.sendRedirect("/chat/" + conversationTitle);
+      if (hasHashtag) {
+      // hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+        response.sendRedirect("/chat/" + hashtagTitle);
+      } else {
+        response.sendRedirect("/chat/" + conversationTitle);
+      }
       return;
     }
 
-    Conversation conversation =
-        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+    Conversation conversation;
+    if (hasHashtag) {
+      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle.substring(conversationTitle.indexOf("#") + 1), Instant.now());
+    } else {
+      conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+    }
 
     conversationStore.addConversation(conversation);
     System.out.println(conversationTitle);
-    response.sendRedirect("/chat/" + conversationTitle);
+    if (hasHashtag) {
+      //hashtagTitle = (String)conversationTitle.substring(conversationTitle.indexOf("#") + 1);
+      response.sendRedirect("/chat/" + hashtagTitle);
+    } else {
+      response.sendRedirect("/chat/" + conversationTitle);
+    }
+
+
   }
 }

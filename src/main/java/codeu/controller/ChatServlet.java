@@ -15,9 +15,11 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Hashtag;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.HashtagStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
@@ -43,6 +45,9 @@ public class ChatServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  /** Store class that gives access to Hashtags. */
+  private HashtagStore hashtagStore;
+
   /** Set up state for handling chat requests. */
   @Override
   public void init() throws ServletException {
@@ -50,6 +55,7 @@ public class ChatServlet extends HttpServlet {
     setConversationStore(ConversationStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
+    setHashtagStore(HashtagStore.getInstance());
   }
 
   /**
@@ -75,6 +81,14 @@ public class ChatServlet extends HttpServlet {
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
   }
+
+  /**
+   * Sets the UserStore used by this servlet. This function provides a common setup method for use
+   * by the test framework or the servlet's init() function.
+   */
+   void setHashtagStore(HashtagStore hashtagStore) {
+     this.hashtagStore = hashtagStore;
+   }
 
   /**
    * This function fires when a user navigates to the chat page. It gets the conversation title from
@@ -155,5 +169,17 @@ public class ChatServlet extends HttpServlet {
 
     // redirect to a GET request
     response.sendRedirect("/chat/" + conversationTitle);
+
+    // WHERE HASHTAG CREATION STARTS
+    String hashtagTitle = "";
+    if (messageContent.contains("#")) {
+      hashtagTitle = messageContent.substring(messageContent.indexOf("#") + 1);
+      if (!hashtagStore.isTitleTaken(hashtagTitle)) {
+        Hashtag hashtag = new Hashtag(UUID.randomUUID(), user.getId(), hashtagTitle, Instant.now());
+        hashtagStore.addHashtag(hashtag);
+      } else {
+        response.sendRedirect("/chat/" + messageContent);
+      }
+    }
   }
 }
