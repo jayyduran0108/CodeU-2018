@@ -25,6 +25,8 @@ public class Hashtag {
   public final UUID poster;
   public final Instant creation;
   public final String hashTitle;
+  public final Set<UUID> messages;
+  public final Set<UUID> conversations;
 
   /**
    * Constructs a new Hashtag.
@@ -39,6 +41,8 @@ public class Hashtag {
     this.poster = poster;
     this.creation = creation;
     this.hashTitle = hashTitle;
+    this.conversations = new HashSet<>();
+    this.messages = new HashSet<>();
   }
 
   /** Returns the ID of this Hashtag. */
@@ -59,5 +63,21 @@ public class Hashtag {
   /** Returns the creation time of this Hashtag. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+  public void addConversation(UUID id) {
+    conversations.add(id);
+  }
+
+  public void addMessage(UUID id) {
+    messages.add(id);
+  }
+
+  public void removeConversation(UUID id) {
+    conversations.remove(id);
+  }
+
+  public void removeMessage(UUID id) {
+    messages.remove(id);
   }
 }
