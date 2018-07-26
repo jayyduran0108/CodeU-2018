@@ -58,7 +58,7 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
 <body onload="scrollChat()">
 
   <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+    <a id="navTitle" href="/">Catch-22 Chat App</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
