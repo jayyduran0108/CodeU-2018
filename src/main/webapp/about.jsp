@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Catch-22 Chat App</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -32,45 +32,31 @@
     <a href="/about.jsp">About</a>
     <a href="/admin"> Admin </a>
     <a href="/activity">Activity Feed</a>
-<<<<<<< HEAD
     <a href="/admin"> Admin </a>
-=======
     <a href="/hashlist">Hashtags</a>
->>>>>>> ae65c7051a5caf0f9b4c1f5a8f807a68eb4e6203
   </nav>
 
   <div id="container">
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>About the CodeU Chat App</h1>
+      <h1>About the Catch-22 Chat App</h1>
       <p>
-        This is an example chat application designed to be a starting point
-        for your CodeU project team work. Here's some stuff to think about:
+        Here's what this chat app can do':
       </p>
 
       <ul>
-        <li><strong>Algorithms and data structures:</strong> We've made the app
-            and the code as simple as possible. You will have to extend the
-            existing data structures to support your enhancements to the app,
-            and also make changes for performance and scalability as your app
-            increases in complexity.</li>
-        <li><strong>Look and feel:</strong> The focus of CodeU is on the Java
-          side of things, but if you're particularly interested you might use
-          HTML, CSS, and JavaScript to make the chat app prettier.</li>
-        <li><strong>Customization:</strong> Think about a group you care about.
-          What needs do they have? How could you help? Think about technical
-          requirements, privacy concerns, and accessibility and
-          internationalization.</li>
+        <li><strong>Admin page:</strong> If you are a user with admin status you can view statistics of our app, like the
+        number of user, conversations and messages as well as showing the most active user, showing the newest user,
+        and showing the wordiest user</li>
+        <li><strong>Profile pages:</strong> The user has the ability to click on the username of a message inside a conversation, this
+        will direct you to a profile page corresponding to that user.If the user you click on is the same as you while logedin you can change your biography.</li>
+        <li><strong>Activity feed:</strong> Our application can display everything that has happened inside our app, you can see people who has joined,
+        see messages and conversations created and links to the conversations mentioned. This activity feed is also displayed in chronological order </li>
+        <li><strong>Hashtags:</strong> Our application can Hashtag either conversations by going to the list of conversations and write the hashtag title on the box right beside the name
+         of the conversation you want to tag, or in messages if you go to a conversation and write under posting message text and at the end the hashatag you want. i.e: Message: Hello Word! #coding </li>
       </ul>
 
-      <p>
-        This is your code now. Get familiar with it and get comfortable
-        working with your team to plan and make changes. Start by updating the
-        homepage and this about page to tell your users more about your team.
-        This page should also be used to describe the features and improvements
-        you've added.
-      </p>
     </div>
   </div>
 </body>

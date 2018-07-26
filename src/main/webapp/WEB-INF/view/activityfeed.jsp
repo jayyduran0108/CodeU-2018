@@ -36,7 +36,7 @@ Map<UUID, Object> ids = (Map<UUID, Object>) request.getAttribute("ids");
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Catch-22 Chat App</title>
   <link rel="stylesheet" href="/css/main.css">
 
   <style>
