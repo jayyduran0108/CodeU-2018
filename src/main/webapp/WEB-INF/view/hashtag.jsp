@@ -86,18 +86,19 @@ ArrayList<Message> messages1 = (ArrayList) request.getAttribute("messages1");
     <div id="hashtag">
     <ul>
     <%
-
+        HashtagStore hashInst = HashtagStore.getInstance();
+        Hashtag hash = hashInst.getHashtagWithHashTitle(title);
         UserStore inst = UserStore.getInstance();
         ConversationStore ConvInst = ConversationStore.getInstance();
         for(Message m: messages1) {
 
     %>
-      <li><strong></strong>Message: <%= inst.getUser(m.getAuthorId()).getName() + " created a hashtag message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
+      <li><strong></strong>Message: <%= inst.getUser(hash.getPosterId()).getName() + " hashtaged a message in "%><a href="/chat/<%=ConvInst.getConversation(m.getConversationId()).getTitle() %>"><%= ConvInst.getConversation(m.getConversationId()).getTitle() %></a><%= ": \"" + m.getContent() +"\""  %></li>
     <%
       }
       for (Conversation c : conversations1) {
     %>
-      <li><strong> </strong>Conversation: <%= inst.getUser(c.getOwnerId()).getName() + " created a Hashtag conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
+      <li><strong> </strong>Conversation: <%= inst.getUser(hash.getPosterId()).getName() + " hashtaged the conversation: "%><a href="/chat/<%= c.getTitle() %>"><%= c.getTitle() %></a></li>
     <%
        }
     %>
